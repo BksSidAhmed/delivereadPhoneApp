@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 import moment from 'moment'
 import { getToken , getCommandeIdUser } from '../api/index'
 import { connect } from 'react-redux'
-import {Card} from 'react-native-elements'
+import {Card, Button} from 'react-native-elements'
 import * as Progress from 'react-native-progress';
 
 class LibrairyItem extends React.Component {
@@ -32,61 +32,42 @@ class LibrairyItem extends React.Component {
           isSelected: !prevState.isSelected
         }))
       }
+      
       renderDetails = () => {
         getCommandeIdUser(this.props.book.ReferenceBook).then(data => {
-            this.setState({
-              CommandeUser: data.commande[0].etat,
-            })
+          this.setState({
+            CommandeUser: data.commande[0].etat,
+          })
         })
-        return(
-          <View style = {{backgroundColor : "#D5F5E3"}}> 
-              <Text style = {{textAlign : "center"}}>Phase : {this.state.CommandeUser}</Text> 
-              <Progress.Bar progress={0.5} width={200} /> 
-              {/* <Progress.CircleSnail color={['red', 'green', 'blue']} /> */}
- 
-              {/* <Card containerStyle={styles.containers_accordeon} >
-                  <Text style={{textAlign:'center',fontSize:15, color:'black', padding:10}}>
-                    Entrez vos identifiants Portail e-RH puis cliquez sur le bouton "Connexion" pour vous identifier
-                  </Text>
-            </Card>   */}
-            {/* <Progress.Circle size={30} indeterminate={true} /> */}
-          </View>
 
-         
+        return(
+          <View style = {{alignItems: 'center', marginBottom: 10}}> 
+              <Text style = {{textAlign : "center"}}>{this.state.CommandeUser}</Text> 
+              {
+                this.state.CommandeUser == "Commande en cours de Traitement" ? (
+                  <Progress.Bar progress={0.35} width={350} height={10}/>
+                ):(
+                  this.state.CommandeUser == "Commande Expedié" ? (
+                  <Progress.Bar progress={0.70} width={350} height={10}/>
+                  ):(
+                    this.state.CommandeUser == "Commande Reçu/Phase de Lecture" ? (
+                      <View >
+                         <Progress.Bar style = {{marginBottom : 5}} progress={1} width={350} height={10} color="green"/>
+                          
+                          <Button
+                            title="Rendre le Livre"
+                            type="solid"
+                          />
+                      </View>
+                    ):(
+                      <Progress.Bar progress={0} width={350} height={10}/>
+                    )
+                  )  
+                )
+              }
+          </View>
         )
       }
-
-    // _bareprogress(){
-    //   console.log()
-    //   if (this.state.CommandeUser == 'Traitement')
-    //   {
-    //   return(        
-    //     <View style = {styles.bar_porgress}>
-    //       <View style = {styles.traitement}><Text style = {styles.texttraitement}>En traitement</Text></View>
-    //       <View style = {styles.gris}></View>
-    //       <View style = {styles.gris}></View>
-    //    </View>
-    //   )
-    //   }
-    //   else if (this.state.CommandeUser == 'Envoi')
-    //   {
-    //   return(        
-    //     <View style = {styles.bar_porgress}>
-    //       <View style = {styles.envoi}><Text style = {styles.texttraitement}></Text></View>
-    //       <View style = {styles.envoi}><Text style = {styles.texttraitement}>En livraison</Text></View>
-    //       <View style = {styles.gris}></View>
-    //    </View>)        
-    //   }
-    //   else (this.state.CommandeUser == 'Reception')
-    //   {
-    //   return(        
-    //   <View style = {styles.bar_porgress}>
-    //     <View style = {styles.reception}><Text style = {styles.texttraitement}></Text></View>
-    //     <View style = {styles.reception}><Text style = {styles.texttraitement}>Livré</Text></View>
-    //     <View style = {styles.reception}><Text style = {styles.texttraitement}></Text></View>
-    //   </View>)
-    //   }
-    // }
 
     render() {
       const book = this.props.book
@@ -132,7 +113,7 @@ class LibrairyItem extends React.Component {
       width: 120,
       height: 180,
       margin: 5,
-      //backgroundColor: 'gray'
+      backgroundColor: 'gray'
     },
     content_container: {
       flex: 1,
