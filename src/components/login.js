@@ -29,7 +29,6 @@ class Login extends React.Component {
         postUser(this.username,this.password).then(data => {
             if(data[0] == 200) {
                 this.props.loginToken(data[1].token)
-                DevSettings.reload()
             }
             else {
                 this.setState({

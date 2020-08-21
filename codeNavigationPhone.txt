@@ -26,7 +26,6 @@ import { RESET_ACTION } from '../redux/actions/resetActions'
 import { loginId } from '../redux/actions/idUserAction'
 // Redux
 import { connect } from 'react-redux'
-import { AuthContext } from "../context/context";
 
 
 const HomeStack = createStackNavigator();
@@ -124,11 +123,11 @@ function BooksStackScreen() {
     </BooksStack.Navigator>
   );
 }
-const AuthStack = createStackNavigator();
-function AuthStackScreen() {
+const LoginStack = createStackNavigator();
+function LoginStackScreen() {
   return(
-            <AuthStack.Navigator>
-              <AuthStack.Screen 
+            <LoginStack.Navigator>
+              <LoginStack.Screen 
                   name="Login" 
                   component={Login}
                   options =  {{
@@ -140,7 +139,26 @@ function AuthStackScreen() {
                     headerTintColor: '#fff',
                   }}
               />              
-              <AuthStack.Screen 
+              <LoginStack.Screen 
+                  name="Navigation" 
+                  component={Navigation}
+                  options =  {{
+                    title: 'Deliveread ',
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                      backgroundColor: '#FF9800',
+                    },
+                    headerTintColor: '#fff',
+                  }}
+              />
+        </LoginStack.Navigator> 
+    )
+}
+const RegisterStack = createStackNavigator();
+function RegisterStackScreen() {
+  return(
+            <RegisterStack.Navigator>
+              <RegisterStack.Screen 
                   name="Register" 
                   component={Register}
                   options =  {{
@@ -152,89 +170,121 @@ function AuthStackScreen() {
                     headerTintColor: '#fff',
                   }}
               />
-        </AuthStack.Navigator> 
+            </RegisterStack.Navigator> 
     )
 }
-const Tabs = createBottomTabNavigator();
-const TabsScreen = () => (
-    <Tabs.Navigator
-        tabBarOptions={{
-          activeTintColor: '#ffffff',
-          inactiveTintColor: 'grey',
-          activeBackgroundColor : '#FF9800'
-        }}>
-        <Tabs.Screen 
-              name="books" 
-              component={BooksStackScreen} 
-              options={{
-                tabBarLabel: 'Books',
-                tabBarColor: '#009387',
-                tabBarIcon: ({ color }) => (
-                  <FontAwesome5 name="book" color={color} size={26} />
-                ),  
-              }}
-          />
-          <Tabs.Screen 
-              name="Librairy" 
-              component={HomeStackScreen}
-              options={{
-                tabBarLabel: 'Librairy',
-                tabBarColor: '#009387',
-                tabBarIcon: ({ color }) => (
-                  <FontAwesome5 name="book-open" color={color} size={26} />
-                ),  
-              }}
-        />
-          <Tabs.Screen 
-              name="Profile" 
-              component={SettingsStackScreen} 
-              options={{
-                tabBarLabel: 'Profile',
-                tabBarColor: '#009387',
-                tabBarIcon: ({ color }) => (
-                  <FontAwesome5 name="user-alt" color={color} size={26}/>
-                ),  
-              }}            
-          />
-    </Tabs.Navigator>
-);
-
-const RootStack = createStackNavigator();
-const RootStackScreen = ({token}) => (
-  <RootStack.Navigator headerMode="none">
-    {token ? (
-      <RootStack.Screen
-        name="Management Time"
-        component={TabsScreen}
-        options={{
-          animationEnabled: false
-        }}
-      />
-    ) : (
-      <RootStack.Screen
-        name="Auth"
-        component={AuthStackScreen}
-        options={{
-          animationEnabled: false
-        }}
-      />
-    )}
-  </RootStack.Navigator>
-);
-
+const Tab = createBottomTabNavigator();
 class Navigation extends React.Component {
+      constructor(props) {
+          super(props)
+          this.state = {
+            statusToken : '',
+            interval: null,
+          } 
+    }
+
+  _statusToken () {
+    getToken(this.props.token).then(data => {
+      this.setState({
+          statusToken: data[0],
+      })
+      if(this.state.statusToken == 200){
+        console.log(data[1].user.id_user)
+        this.props.loginId(data[1].user.id_user)
+      }
+    })
+  }
+
+  UNSAFE_componentWillMount() {
+      // this.props.RESET_ACTION()    
+      this._statusToken()
+  }
+
   render() {
+      if (this.state.statusToken == '200' ) {
         return (
-        <AuthContext.Provider>
           <NavigationContainer>
-              <RootStackScreen token={this.props.token}/>
+            <Tab.Navigator
+                  tabBarOptions={{
+                    activeTintColor: '#ffffff',
+                    inactiveTintColor: 'grey',
+                    activeBackgroundColor : '#FF9800'
+                  }}>
+            <Tab.Screen 
+                  name="books" 
+                  component={BooksStackScreen} 
+                  options={{
+                    tabBarLabel: 'Books',
+                    tabBarColor: '#009387',
+                    tabBarIcon: ({ color }) => (
+                      <FontAwesome5 name="book" color={color} size={26} />
+                    ),  
+                  }}
+              />
+              <Tab.Screen 
+                  name="Librairy" 
+                  component={HomeStackScreen}
+                  options={{
+                    tabBarLabel: 'Librairy',
+                    tabBarColor: '#009387',
+                    tabBarIcon: ({ color }) => (
+                      <FontAwesome5 name="book-open" color={color} size={26} />
+                    ),  
+                  }}
+            />
+              <Tab.Screen 
+                  name="Profile" 
+                  component={SettingsStackScreen} 
+                  options={{
+                    tabBarLabel: 'Profile',
+                    tabBarColor: '#009387',
+                    tabBarIcon: ({ color }) => (
+                      <FontAwesome5 name="user-alt" color={color} size={26}/>
+                    ),  
+                  }}            
+              />
+            </Tab.Navigator>
           </NavigationContainer>
-        </AuthContext.Provider>
-        )
+        );
+      }
+      else {
+        return (
+          <NavigationContainer>
+          <Tab.Navigator
+                tabBarOptions={{
+                  activeTintColor: '#ffffff',
+                  inactiveTintColor: 'grey',
+                  activeBackgroundColor : '#FF9800'
+                }}>
+          <Tab.Screen 
+                name="Login" 
+                component={LoginStackScreen} 
+                options={{
+                  tabBarLabel: 'Login',
+                  tabBarColor: '#009387',
+                  tabBarIcon: ({ color }) => (
+                    <FontAwesome5 name="book" color={color} size={26} />
+                  ),  
+                }}
+            />
+            <Tab.Screen 
+                name="Register" 
+                component={RegisterStackScreen}
+                options={{
+                  tabBarLabel: 'Register',
+                  tabBarColor: '#009387',
+                  tabBarIcon: ({ color }) => (
+                    <FontAwesome5 name="book-open" color={color} size={26} />
+                  ),  
+                }}
+          />
+          </Tab.Navigator>
+        </NavigationContainer>          
+        );
       
       }
+  }
 }
-
 const mapStateToProps = (state) => {
   // Redux Store --> Component
  return {
