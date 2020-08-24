@@ -35,6 +35,7 @@ class LibrairyItem extends React.Component {
       
       renderDetails = () => {
         getCommandeIdUser(this.props.book.ReferenceBook).then(data => {
+          console.log(data.commande[0].etat)
           this.setState({
             CommandeUser: data.commande[0].etat,
           })

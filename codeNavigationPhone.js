@@ -196,7 +196,7 @@ class Navigation extends React.Component {
   }
 
   UNSAFE_componentWillMount() {
-      // this.props.RESET_ACTION()    
+      this.props.RESET_ACTION()    
       this._statusToken()
   }
 

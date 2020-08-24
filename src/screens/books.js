@@ -1,7 +1,7 @@
 import React from 'react'
 import { FlatList} from 'react-native'
 import { getBooks } from '../api/index'
-import BooksItem from './booksItem'
+import BooksItem from '../components/booksItem'
 import {requestACCESSFINELOCATIONPermission} from '../permission/accessFineLocation'
 
 class Books extends React.Component {

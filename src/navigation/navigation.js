@@ -7,13 +7,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-native-gesture-handler';
 // Components
 import Librairy from '../components/librairy';
-import Profile from '../components/profile';
-import Books from '../components/books';
+import Profile from '../screens/profile';
+import Books from '../screens/books';
 import BooksDetail from '../components/booksDetail';
-import Login from '../components/login';
-import Register from '../components/register';
-import Reservation from '../components/reservation';
-import Adresse from '../components/adresse';
+import Login from '../screens/Auth/login';
+import Register from '../screens/Auth/register';
+import Reservation from '../screens/reservation';
+import Adresse from '../screens/adresse';
 //import Navigation from '../navigation/navigation'
 // Dependance UI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -80,7 +80,7 @@ function BooksStackScreen() {
             title: 'Deliveread ',
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#FF9800',
+              backgroundColor: '#EF800B',
             },
             headerTintColor: '#fff',
           }}
@@ -92,7 +92,7 @@ function BooksStackScreen() {
             title: 'Deliveread ',
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#FF9800',
+              backgroundColor: '#EF800B',
             },
             headerTintColor: '#fff',
           }}
@@ -127,7 +127,8 @@ function BooksStackScreen() {
 const AuthStack = createStackNavigator();
 function AuthStackScreen() {
   return(
-            <AuthStack.Navigator>
+            <AuthStack.Navigator
+            headerMode="none">
               <AuthStack.Screen 
                   name="Login" 
                   component={Login}
@@ -161,14 +162,14 @@ const TabsScreen = () => (
         tabBarOptions={{
           activeTintColor: '#ffffff',
           inactiveTintColor: 'grey',
-          activeBackgroundColor : '#FF9800'
+          activeBackgroundColor : '#EF800B'
         }}>
         <Tabs.Screen 
               name="books" 
               component={BooksStackScreen} 
               options={{
                 tabBarLabel: 'Books',
-                tabBarColor: '#009387',
+                tabBarColor: '#EF800B',
                 tabBarIcon: ({ color }) => (
                   <FontAwesome5 name="book" color={color} size={26} />
                 ),  
@@ -179,7 +180,7 @@ const TabsScreen = () => (
               component={HomeStackScreen}
               options={{
                 tabBarLabel: 'Librairy',
-                tabBarColor: '#009387',
+                tabBarColor: '#EF800B',
                 tabBarIcon: ({ color }) => (
                   <FontAwesome5 name="book-open" color={color} size={26} />
                 ),  
@@ -190,7 +191,7 @@ const TabsScreen = () => (
               component={SettingsStackScreen} 
               options={{
                 tabBarLabel: 'Profile',
-                tabBarColor: '#009387',
+                tabBarColor: '#EF800B',
                 tabBarIcon: ({ color }) => (
                   <FontAwesome5 name="user-alt" color={color} size={26}/>
                 ),  
@@ -223,7 +224,29 @@ const RootStackScreen = ({token}) => (
 );
 
 class Navigation extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        statusToken : '',
+      } 
+      // console.log('nav')
+  }
+  _statusToken () {
+    getToken(this.props.token).then(data => {
+      // console.log( 'getToken' + data)
+      this.setState({
+          statusToken: data[0],
+      })
+      if(this.state.statusToken == 200){
+        console.log(data[1].user.id_user)
+        this.props.loginId(data[1].user.id_user)
+      }
+    })
+  }
+
   render() {
+    // this._statusToken()
+    // this.props.RESET_ACTION()
         return (
         <AuthContext.Provider>
           <NavigationContainer>

@@ -3,7 +3,7 @@ import { View , StyleSheet, Text, Linking } from 'react-native'
 import { Input, Button} from 'react-native-elements'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { postUserRegister } from '../api/index'
+import { postUserRegister } from '../../api/index'
 import { Root, Popup, Toast } from 'popup-ui';
 
 class Register extends React.Component {

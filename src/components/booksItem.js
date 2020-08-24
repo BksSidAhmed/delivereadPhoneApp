@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, Image, TouchableOpacity, StatusBar } from 'react-native'
 import moment from 'moment'
 import { getImage } from '../api/index'
 
@@ -16,6 +16,7 @@ class BooksItem extends React.Component {
           <TouchableOpacity 
               style={styles.main_container}  
               onPress={() => displayDetailForFilm(book.id_book)}>
+        <StatusBar backgroundColor='#EF800B' barStyle="light-content"/>
             <Image
               style={styles.image}
               source={{uri: 'data:image/png;base64,' + book.image}}
