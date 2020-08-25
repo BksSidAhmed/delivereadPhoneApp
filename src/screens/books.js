@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList} from 'react-native'
+import { FlatList, ActivityIndicator, View} from 'react-native'
 import { getBooks } from '../api/index'
 import BooksItem from '../components/booksItem'
 import {requestACCESSFINELOCATIONPermission} from '../permission/accessFineLocation'
@@ -8,15 +8,23 @@ class Books extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            books: []
+            books: [],
+            loading : false
         }
         requestACCESSFINELOCATIONPermission()
         this._setData()
     }
-        _setData = async () => {
+        _setData = async () => {            
+        this.setState({ 
+            loading : true
+        })
           try {
             getBooks().then(data => {
-                this.setState({ books: data.book })
+                this.setState({ 
+                    loading : false,
+                    books: data.book,
+                    // loading : false
+                })
             })
           } catch (err) {
             console.log(err);
@@ -28,6 +36,13 @@ class Books extends React.Component {
     }
 
     render() {
+        if(this.state.loading) {
+            return(
+                <View style={{flex: 1,justifyContent: "center"}}>
+                    <ActivityIndicator size="large" color="#00ff00" />
+                </View>
+            )
+        }
         return (
                 <FlatList
                     data={this.state.books}

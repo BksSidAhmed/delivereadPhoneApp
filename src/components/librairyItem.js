@@ -48,10 +48,10 @@ class LibrairyItem extends React.Component {
                 this.state.CommandeUser == "Commande en cours de Traitement" ? (
                   <Progress.Bar progress={0.35} width={350} height={10}/>
                 ):(
-                  this.state.CommandeUser == "Commande Expedié" ? (
+                  this.state.CommandeUser == "Commande Expediée" ? (
                   <Progress.Bar progress={0.70} width={350} height={10}/>
                   ):(
-                    this.state.CommandeUser == "Commande Reçu/Phase de Lecture" ? (
+                    this.state.CommandeUser == "Commande Reçue/Phase de Lecture" ? (
                       <View >
                          <Progress.Bar style = {{marginBottom : 5}} progress={1} width={350} height={10} color="green"/>
                           

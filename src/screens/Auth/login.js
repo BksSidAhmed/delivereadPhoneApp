@@ -4,6 +4,8 @@ import { Input, Button} from 'react-native-elements'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { postUser } from '../../api/index'
 import {loginToken} from '../../redux/actions/tokenAction'
+import { loginId } from '../../redux/actions/idUserAction'
+
 import { connect } from 'react-redux'
 import { RESET_ACTION } from '../../redux/actions/resetActions'
 import { Root, Popup } from 'popup-ui';
@@ -30,17 +32,21 @@ class Login extends React.Component {
     }
     
     connexion(){
+        console.log('trst')
         postUser(this.username,this.password).then(data => {
+            console.log(data[1].token)
             if(data[0] == 200) {      
                 this.setState({
                     loading : true
                 })      
+                this.props.loginId(data[1].user.id_user)
                 this.props.loginToken(data[1].token)
                 this.setState({
                     loading : false
                 })
             }
             else {
+                console.log('trst2')
                 this.setState({
                     textErro : data[1].msg
                 })
@@ -66,8 +72,8 @@ class Login extends React.Component {
         }
         return (
             <Root>
-                <View style={styles.container}>
-                    <StatusBar backgroundColor='#EF800B' barStyle="light-content"/>
+            <View style={styles.container}>
+            <StatusBar backgroundColor='#EF800B' barStyle="light-content"/>
                     <View style={styles.header}>
                         <Animatable.Text animation = "fadeInLeftBig" style={styles.text_header}>Deliveread</Animatable.Text>
                     </View>
@@ -194,4 +200,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default connect(mapStateToProps, {loginToken, RESET_ACTION})(Login)
+export default connect(mapStateToProps, {loginToken, RESET_ACTION, loginId})(Login)

@@ -28,6 +28,8 @@ import { loginId } from '../redux/actions/idUserAction'
 import { connect } from 'react-redux'
 import { AuthContext } from "../context/context";
 
+import UserInactivity from 'react-native-user-inactivity'
+import BackgroundTimer from 'react-native-user-inactivity/lib/BackgroundTimer'
 
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
@@ -233,26 +235,26 @@ class Navigation extends React.Component {
   }
   _statusToken () {
     getToken(this.props.token).then(data => {
-      // console.log( 'getToken' + data)
-      this.setState({
-          statusToken: data[0],
-      })
-      if(this.state.statusToken == 200){
-        console.log(data[1].user.id_user)
-        this.props.loginId(data[1].user.id_user)
+      if(data[0] !== 200){
+        this.props.RESET_ACTION()
       }
     })
   }
 
+
   render() {
-    // this._statusToken()
-    // this.props.RESET_ACTION()
         return (
-        <AuthContext.Provider>
-          <NavigationContainer>
-              <RootStackScreen token={this.props.token}/>
-          </NavigationContainer>
-        </AuthContext.Provider>
+        <UserInactivity
+          timeForInactivity = {1800000}
+          timeoutHandler = {BackgroundTimer}
+          onAction = {isActive => { isActive == false ? this._statusToken() : null }}
+        >
+          <AuthContext.Provider>
+            <NavigationContainer>
+                <RootStackScreen token={this.props.token}/>
+            </NavigationContainer>
+          </AuthContext.Provider>
+        </UserInactivity>
         )
       
       }

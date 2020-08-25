@@ -50,7 +50,6 @@ _displayBook() {
           <Text style={styles.default_text}>Collection : {book[0].collection}</Text>
           <Text style={styles.default_text}>Sorti le {moment(new Date(book[0].dateSortie)).format('DD/MM/YYYY')}</Text>
           <Text style={styles.default_text}>Prix : {book[0].prix}</Text>
-          <Text style={styles.default_text}>Quantité : {book[0].quantity}</Text>
       </ScrollView>
     )
   }
