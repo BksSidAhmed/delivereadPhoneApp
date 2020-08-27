@@ -4,6 +4,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
 // Components
 import Librairy from '../components/librairy';
@@ -14,7 +15,14 @@ import Login from '../screens/Auth/login';
 import Register from '../screens/Auth/register';
 import Reservation from '../screens/reservation';
 import Adresse from '../screens/adresse';
-//import Navigation from '../navigation/navigation'
+import DrawerContent from '../components/drawerContent'
+import Livreur from '../screens/Livreur/livreur'
+
+// Components Categorie
+import manga from '../screens/Categorie/manga'
+import policier_thriller from '../screens/Categorie/policier_thrillers'
+import roman from '../screens/Categorie/roman'
+import sf_Fantasy from '../screens/Categorie/sf_Fantasy'
 // Dependance UI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -31,6 +39,25 @@ import { AuthContext } from "../context/context";
 import UserInactivity from 'react-native-user-inactivity'
 import BackgroundTimer from 'react-native-user-inactivity/lib/BackgroundTimer'
 
+const LivreurStack = createStackNavigator();
+function LivreurStackScreen() {
+  return (
+    <LivreurStack.Navigator>
+      <LivreurStack.Screen 
+          name="librairy" 
+          component={Livreur}
+          options =  {{
+            title: 'Deliveread ',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#FF9800',
+            },
+            headerTintColor: '#fff',
+          }}
+      />
+    </LivreurStack.Navigator>
+  );
+}
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
   return (
@@ -202,26 +229,60 @@ const TabsScreen = () => (
     </Tabs.Navigator>
 );
 
+const Drawer = createDrawerNavigator();
+const DrawerScreen = () => (
+  <Drawer.Navigator initialRouteName="Home" drawerContent= { props => <DrawerContent {...props}/>}>
+    <Drawer.Screen name="Home" component={TabsScreen}/>
+    <Drawer.Screen name="Roman" component={roman} />
+    <Drawer.Screen name="SF, Fantasy" component={sf_Fantasy} />
+    <Drawer.Screen name="Policier, Thrillers" component={policier_thriller} />
+    <Drawer.Screen name="Manga" component={manga} />
+  </Drawer.Navigator>
+);
+
+
 const RootStack = createStackNavigator();
-const RootStackScreen = ({token}) => (
+const RootStackScreen = ({token, idRole}) => (
   <RootStack.Navigator headerMode="none">
-    {token ? (
-      <RootStack.Screen
-        name="Management Time"
-        component={TabsScreen}
-        options={{
-          animationEnabled: false
-        }}
-      />
-    ) : (
-      <RootStack.Screen
-        name="Auth"
-        component={AuthStackScreen}
-        options={{
-          animationEnabled: false
-        }}
-      />
-    )}
+    {
+      idRole == 2 ? (
+        token ? (
+          <RootStack.Screen
+                options={{
+                  animationEnabled: false
+                }}        
+                name="Management Time"
+                component={DrawerScreen}
+          />
+        ) : (
+          <RootStack.Screen
+              name="Auth"
+              component={AuthStackScreen}
+              options={{
+                animationEnabled: false
+              }}
+            />
+        )
+      ) : (
+        idRole == 4 ? (
+          <RootStack.Screen
+            options={{
+              animationEnabled: false
+            }}        
+            name="Livreur"
+            component={LivreurStackScreen}
+          />
+        ) : (
+          <RootStack.Screen
+              name="Auth"
+              component={AuthStackScreen}
+              options={{
+                animationEnabled: false
+              }}
+            />
+        )
+      )
+    }  
   </RootStack.Navigator>
 );
 
@@ -243,6 +304,7 @@ class Navigation extends React.Component {
 
 
   render() {
+    // console.log(this.props.RESET_ACTION())
         return (
         <UserInactivity
           timeForInactivity = {1800000}
@@ -251,7 +313,7 @@ class Navigation extends React.Component {
         >
           <AuthContext.Provider>
             <NavigationContainer>
-                <RootStackScreen token={this.props.token}/>
+                <RootStackScreen token={this.props.token} idRole= {this.props.idRole}/>
             </NavigationContainer>
           </AuthContext.Provider>
         </UserInactivity>
@@ -264,6 +326,7 @@ const mapStateToProps = (state) => {
   // Redux Store --> Component
  return {
      token: state.tokenReducer.token,
+     idRole : state.idRoleReducer.idRole
  }
 }
 export default connect(mapStateToProps, {loginToken, RESET_ACTION, loginId }) (Navigation)

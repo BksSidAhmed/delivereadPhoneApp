@@ -77,22 +77,6 @@ class Reservation extends React.Component {
             })
         );
     }
-    // Date
-    showDateTimePicker = () => {
-        this.setState({ isDateTimePickerVisible: true });
-    };
-     
-    hideDateTimePicker = () => {
-        this.setState({ isDateTimePickerVisible: false });
-    };
-     
-    handleDatePicked = date => {
-        //console.log("A date has been picked: ", moment(new Date(date)).format('DD/MM/YYYY hh:mm'));
-        this.setState({
-            dateTime: moment(new Date(date)).format('YYYY-MM-DD hh:mm')
-        })
-        this.hideDateTimePicker();
-    };
 
     _displayBook() {
         const { book } = this.state
@@ -155,36 +139,8 @@ class Reservation extends React.Component {
                                 }
                                 placeholderTextColor='black'
                             />
-                            <DateTimePicker
-                                    isVisible={this.state.isDateTimePickerVisible}
-                                    mode = "datetime"
-                                    onConfirm={this.handleDatePicked}
-                                    onCancel={this.hideDateTimePicker}
-                            />
                         </View>
                         <View>
-                            <Input 
-                                placeholder = 'Date de livraison'
-                                onFocus={Keyboard.dismiss()}
-                                onFocus={ () => this.showDateTimePicker() }
-                                value={this.state.dateTime}
-                                keyboardType = 'none'
-                                leftIcon = {
-                                    <FontAwesome5
-                                        name = 'calendar-alt'
-                                        size = {20}
-                                        color = 'black'
-                                    />
-                                }
-                                inputStyle={{}}
-                                placeholderTextColor='black'
-                            />
-                            <DateTimePicker
-                                isVisible={this.state.isDateTimePickerVisible}
-                                mode = "datetime"
-                                onConfirm={this.handleDatePicked}
-                                onCancel={this.hideDateTimePicker}
-                            />
                         </View>
                         <Button
                             title="Valider votre commande"

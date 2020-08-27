@@ -5,7 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { postUser } from '../../api/index'
 import {loginToken} from '../../redux/actions/tokenAction'
 import { loginId } from '../../redux/actions/idUserAction'
-
+import {roleId} from '../../redux/actions/idRoleAction'
 import { connect } from 'react-redux'
 import { RESET_ACTION } from '../../redux/actions/resetActions'
 import { Root, Popup } from 'popup-ui';
@@ -32,13 +32,12 @@ class Login extends React.Component {
     }
     
     connexion(){
-        console.log('trst')
         postUser(this.username,this.password).then(data => {
-            console.log(data[1].token)
             if(data[0] == 200) {      
                 this.setState({
                     loading : true
-                })      
+                })     
+                this.props.roleId(data[1].user.id_role) 
                 this.props.loginId(data[1].user.id_user)
                 this.props.loginToken(data[1].token)
                 this.setState({
@@ -200,4 +199,4 @@ const mapStateToProps = (state) => {
    }
 }
 
-export default connect(mapStateToProps, {loginToken, RESET_ACTION, loginId})(Login)
+export default connect(mapStateToProps, {loginToken, RESET_ACTION, loginId,roleId})(Login)

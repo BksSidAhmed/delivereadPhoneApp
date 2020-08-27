@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   image: {
-    height: 169,
+    height: 300,
     margin: 5,
     backgroundColor: 'gray',
   },
