@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, FlatList } from 'react-native'
 // Api
-import { getToken, getBooksIdUser } from '../api/index'
+import { getBooksIdUser } from '../api/index'
 // Redux
 import { connect } from 'react-redux'
 import LibrairyItem from './librairyItem'
@@ -11,30 +11,16 @@ class Librairy extends React.Component {
     super(props)
     this.state = {
         booksUser: [],
-        user_id : ''
     }
 }
 
 UNSAFE_componentWillMount() {
-  this._setbook()
-}
-
-_setbook = async () => {
-  try {
-    getToken(this.props.token).then(data => {
-      this.setState({
-        user_id: data[1].user.id_user,
-      })
-      getBooksIdUser(this.state.user_id).then(data => {
-          this.setState({
-            booksUser: data.book,
-          })
-      })
+  getBooksIdUser(this.props.idUser).then(data => {
+    this.setState({
+      booksUser: data.book,
     })
-  } catch (err) {
-    console.log(err);
-  }
-};
+  })
+}
 
     render() {
       return (
@@ -100,6 +86,7 @@ const styles = StyleSheet.create({
     // Redux Store --> Component
    return {
        token: state.tokenReducer.token,
+       idUser : state.idUserReducer.idUser
    }
 }
 

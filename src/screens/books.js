@@ -36,6 +36,7 @@ class Books extends React.Component {
     }
 
     render() {
+        console.log(this.state.books)
         if(this.state.loading) {
             return(
                 <View style={{flex: 1,justifyContent: "center"}}>

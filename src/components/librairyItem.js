@@ -14,19 +14,8 @@ class LibrairyItem extends React.Component {
             user_id : '',
             isSelected: false,
         }
+        console.log(this.props.books1)
     }
-    UNSAFE_componentWillMount() {
-        // getToken(this.props.token).then(data => {
-        //   this.setState({
-        //     user_id: data[1].user.id_user,
-        //   })
-        //   getCommandeIdUser(this.state.user_id).then(data => {
-        //       this.setState({
-        //         CommandeUser: data.commande[0].etat,
-        //       })
-        //   })
-        // })
-      }
       onPress = () => {
         this.setState((prevState, prevProps) => ({
           isSelected: !prevState.isSelected
@@ -41,6 +30,9 @@ class LibrairyItem extends React.Component {
           })
         })
 
+        componentWillUnmount = () => {
+          console.log('componentWillUnmount')
+        }
         return(
           <View style = {{alignItems: 'center', marginBottom: 10}}> 
               <Text style = {{textAlign : "center"}}>{this.state.CommandeUser}</Text> 
@@ -186,6 +178,7 @@ const mapStateToProps = (state) => {
 // Redux Store --> Component
 return {
     token: state.tokenReducer.token,
+    books1 : state.booksReducer.books1
 }
 }
 

@@ -7,9 +7,9 @@ import { getBooksid, postCommandeBook, postCommandeBookid } from '../api/index'
 import moment from 'moment'
 import { Input, Button, Overlay} from 'react-native-elements'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-// import {testCalendrier} from './testCalendrier'
-import DateTimePicker from "react-native-modal-datetime-picker";
 import { Root, Popup} from 'popup-ui';
+import {IncrementBooks} from '../redux/actions/booksAction'
+// import {DecrementBooks} from '../redux/actions/BooksAction'
 
 class Reservation extends React.Component {
     
@@ -40,34 +40,51 @@ class Reservation extends React.Component {
         })
     } 
     _buttonCommande() {
-        postCommandeBook(this.state.dateTime, this.state.adresse , this.props.idUser, this.props.route.params.id_book).then(data => {
-            if(data[0] == 400) {
-                this.setState({
-                    textErro : data[1].msg
-                })
+        var timemoment = moment().format('YYYY-MM-DD hh:mm:ss')
+        var time = moment(timemoment).add(2, 'h').format('YYYY-MM-DD hh:mm:ss');
+        console.log(this.props.books)
+        {
+            this.props.books > 5 ? (
                 Popup.show({
                     type: 'Danger',
                     title: 'Reservation',
-                    textBody: this.state.textErro,
+                    textBody: 'Malheureusement vous avez deja commandé 5 livre veuillez en rendre 1 si vous souhaité commander ce livre',
                     button: true,
                     buttonText: 'Ok',
-                    callback: () => this.props.navigation.navigate('books')
+                    callback: () =>  this.props.navigation.navigate('books')
                 })
-            }
-            else{
-                Popup.show({
-                    type: 'Success',
-                    title: 'Reservation',
-                    textBody: this.state.textErro,
-                    button: true,
-                    buttonText: 'Ok',
-                    callback: () =>  postCommandeBookid(data[1].data.insertId,this.props.route.params.id_book).then(data => {
-                        this.props.navigation.navigate('books')
-                    })
+            ) : (
+                postCommandeBook(time, this.state.adresse , this.props.idUser, this.props.route.params.id_book).then(data => {
+                    if(data[0] == 400) {
+                        this.setState({
+                            textErro : data[1].msg
+                        })
+                        Popup.show({
+                            type: 'Danger',
+                            title: 'Reservation',
+                            textBody: this.state.textErro,
+                            button: true,
+                            buttonText: 'Ok',
+                            callback: () => this.props.navigation.navigate('books')
+                        })
+                    }
+                    else{
+                        Popup.show({
+                            type: 'Success',
+                            title: 'Reservation',
+                            textBody: this.state.textErro,
+                            button: true,
+                            buttonText: 'Ok',
+                            callback: () =>  postCommandeBookid(data[1].data.insertId,this.props.route.params.id_book).then(data => {
+                                this.props.navigation.navigate('books')
+                            })
+                        })
+                        this.props.IncrementBooks()
+                    }
                 })
+            )
 
-            }
-        })
+        }
     }
 
     synopsys(){
@@ -78,91 +95,94 @@ class Reservation extends React.Component {
         );
     }
 
+    Overlay() {
+        return (
+            <Overlay isVisible={this.state.isVisible} 
+                onBackdropPress={() => this.setState({ isVisible: false })} 
+                width='auto' 
+                height='auto'>
+                <FontAwesome5 
+                        name='book-reader' 
+                        size={50} 
+                        color='black' 
+                        style={{textAlign:'center', padding:10}}>
+                </FontAwesome5>
+                <Text style={{textAlign:'center', fontSize:15, padding:5}}>
+                    {this.state.book[0].synopsys}
+                </Text>
+            </Overlay>
+        )
+    }
     _displayBook() {
         const { book } = this.state
         if(this.state.book != undefined) {
             return ( 
                 <Root>
-                <TouchableOpacity style={styles.main_container}>
-                    <View style = {styles.content_header}>
-                        <Image
-                            style={styles.image}
-                            source={{uri: 'data:image/png;base64,' + book[0].image}}
-                        />
-                        <View style={styles.content_title_info}>
-                            <View>
-                                <Text style={styles.title_text} numberOfLines={1}> {book[0].titre}</Text>
+                    <View style={styles.main_container}>
+                            <View style = {styles.content_header}>
+                                <Image
+                                    style={styles.image}
+                                    source={{uri: 'data:image/png;base64,' + book[0].image}}
+                                />
+                                <View style={styles.content_title_info}>
+                                    <View>
+                                        <Text style={styles.title_text} numberOfLines={1}> {book[0].titre}</Text>
+                                    </View>
+                                    <View style={styles.content_infoBook}>
+                                        <View style={styles.content_Auteur} >
+                                            <Text style={styles.info_text}> Auteur : </Text>
+                                            <Text style={styles.info_textbdd}> {book[0].auteur}</Text>
+                                        </View>
+                                        <View style={styles.content_Auteur} >
+                                            <Text style={styles.info_text}> Editeur : </Text>
+                                            <Text style={styles.info_textbdd}> {book[0].editeur}</Text>
+                                        </View>
+                                        <View style={styles.content_Auteur} >
+                                            <Text style={styles.info_text}> Collection : </Text>                                  
+                                            <Text style={styles.info_textbdd}> {book[0].collection}</Text>
+                                        </View>
+                                        <View style={styles.content_Auteur} >
+                                            <Text style={styles.info_text}> Nombre de page :</Text>
+                                            <Text style={styles.info_textbdd}> {book[0].nombrePage}</Text>
+                                        </View>
+                                        <View style={styles.content_Auteur} >
+                                            <Text style={styles.info_text}> Publication :</Text>
+                                            <Text style={styles.info_textbdd}> {moment(new Date(book[0].dateSortie)).format('DD/MM/YYYY')}</Text>
+                                        </View>
+                                        <TouchableOpacity 
+                                            onPress = {() => this.synopsys()}
+                                            style={styles.TouchableOpacitySynopsys}>
+                                            <Text style = {styles.synopsys_text}>Synopsys -></Text>
+                                        </TouchableOpacity>
+                                        </View>
                             </View>
-                            <View style={styles.content_infoBook}>
-                                <View style={styles.content_Auteur} >
-                                    <Text style={styles.info_text}> Auteur : </Text>
-                                    <Text style={styles.info_textbdd}> {book[0].auteur}</Text>
-                                </View>
-                                <View style={styles.content_Auteur} >
-                                    <Text style={styles.info_text}> Editeur : </Text>
-                                    <Text style={styles.info_textbdd}> {book[0].editeur}</Text>
-                                </View>
-                                <View style={styles.content_Auteur} >
-                                    <Text style={styles.info_text}> Collection : </Text>                                  
-                                    <Text style={styles.info_textbdd}> {book[0].collection}</Text>
-                                </View>
-                                <View style={styles.content_Auteur} >
-                                    <Text style={styles.info_text}> Nombre de page :</Text>
-                                    <Text style={styles.info_textbdd}> {book[0].nombrePage}</Text>
-                                </View>
-                                <View style={styles.content_Auteur} >
-                                    <Text style={styles.info_text}> Publication :</Text>
-                                    <Text style={styles.info_textbdd}> {moment(new Date(book[0].dateSortie)).format('DD/MM/YYYY')}</Text>
-                                </View>
-                                <Button
-                                    style={styles.synopsys_text} 
-                                    onPress={ ()=> this.synopsys() }
-                                    title="Synopsys ->"
-                                    type="clear"
-                                />                          
-                                </View>
-                        </View> 
-                    </View>
-                    <View style = {styles.content_body}>  
-                        <View>
-                            <Input 
-                                placeholder = 'Adresse de livraison'
-                                value={this.state.adresse}
-                                disabled = {true}
-                                inputStyle={{fontSize : 15}}
-                                leftIcon = {
-                                    <FontAwesome5
-                                        name = 'map-marker-alt'
-                                        size = {20}
-                                        color = 'black'
-                                    />
-                                }
-                                placeholderTextColor='black'
+                        </View>
+                        <View style = {styles.content_body}>  
+                            <View>
+                                <Input 
+                                    placeholder = 'Adresse de livraison'
+                                    value={this.state.adresse}
+                                    disabled = {true}
+                                    inputStyle={{fontSize : 15}}
+                                    leftIcon = {
+                                        <FontAwesome5
+                                            name = 'map-marker-alt'
+                                            size = {20}
+                                            color = 'black'
+                                        />
+                                    }
+                                    placeholderTextColor='black'
+                                />
+                            <Button
+                                astyle = {{justifyContent : 'center'}}
+                                title="Valider votre commande"
+                                loading = {false}
+                                onPress = {() => this._buttonCommande()}
                             />
+                            </View>
+                            {this.Overlay()}
                         </View>
-                        <View>
-                        </View>
-                        <Button
-                            title="Valider votre commande"
-                            loading = {false}
-                            onPress = {() => this._buttonCommande()}
-                        />
-                        <Overlay isVisible={this.state.isVisible} 
-                            onBackdropPress={() => this.setState({ isVisible: false })} 
-                            width='auto' 
-                            height='auto'>
-                            <FontAwesome5 
-                                    name='book-reader' 
-                                    size={50} 
-                                    color='black' 
-                                    style={{textAlign:'center', padding:10}}>
-                            </FontAwesome5>
-                            <Text style={{textAlign:'center', fontSize:15, padding:5}}>
-                                {book[0].synopsys}
-                            </Text>
-                        </Overlay>
                     </View>
-                </TouchableOpacity>
                 </Root>
             )
         }
@@ -179,7 +199,8 @@ class Reservation extends React.Component {
     }
     render() {
         // const { book } = this.state
-        // console.log(this.state.book)
+        // this.props.IncrementBooks()
+        console.log(this.props.books)
         return (
             <View style={styles.main_container}>
                 {this._displayLoading()}
@@ -192,6 +213,7 @@ class Reservation extends React.Component {
 const mapStateToProps = (state) => {
    return {
         idUser: state.idUserReducer.idUser,
+        books : state.booksReducer.books
    }
 }
 
@@ -209,11 +231,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
       },
     content_header: {
-        flex : 2,
         flexDirection: 'row',
+        flex : 2
     },
     content_body: {
-        flex : 4,
+        flex : 1,
     },
     image: {
         width: 120,
@@ -256,15 +278,14 @@ const styles = StyleSheet.create({
     },
     synopsys_text : {
         fontWeight: 'normal',
-        color : 'black',
-        fontSize: 15,
+        color : 'blue',
+        fontSize: 20,
         fontStyle: 'italic',
         flexWrap: 'wrap',
-        paddingRight: 3,
-        paddingTop: 9,
-        marginRight : 7,
-        textAlign: 'right'
+        textAlign: 'right',
+        marginTop : 5,
+        marginRight : 5
     },
   })
 
-export default connect(mapStateToProps)(Reservation)
+export default connect(mapStateToProps,{IncrementBooks})(Reservation)
