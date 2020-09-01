@@ -4,7 +4,7 @@ import { StyleSheet, FlatList } from 'react-native'
 import { getBooksIdUser } from '../api/index'
 // Redux
 import { connect } from 'react-redux'
-import LibrairyItem from './librairyItem'
+import LibrairyItem from '../components/librairyItem'
 
 class Librairy extends React.Component {
   constructor(props) {
@@ -21,14 +21,16 @@ UNSAFE_componentWillMount() {
     })
   })
 }
-
+_displayDetailForBook = (id_book) => {
+  this.props.navigation.navigate('librairyRender', { id_book : id_book})
+}
     render() {
       return (
         // Components/Search.js
             <FlatList
                 data={this.state.booksUser}
                 keyExtractor={(item) => item.id_book.toString()}
-                renderItem={({item}) => <LibrairyItem book = {item} displayDetailForFilm={this._displayDetailForFilm}/>}
+                renderItem={({item}) => <LibrairyItem book = {item} displayDetailForBook={this._displayDetailForBook}/>}
                 onEndReachedThreshold={0.5}
             />
       )

@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 import moment from 'moment'
-import { getToken , getCommandeIdUser } from '../api/index'
+import {getCommandeIdUser } from '../api/index'
 import { connect } from 'react-redux'
-import {Card, Button} from 'react-native-elements'
+import {Button} from 'react-native-elements'
 import * as Progress from 'react-native-progress';
 
 class LibrairyItem extends React.Component {
@@ -14,25 +14,39 @@ class LibrairyItem extends React.Component {
             user_id : '',
             isSelected: false,
         }
-        console.log(this.props.books1)
     }
       onPress = () => {
         this.setState((prevState, prevProps) => ({
           isSelected: !prevState.isSelected
         }))
-      }
-      
-      renderDetails = () => {
+      }    
+      UNSAFE_componentWillMount() {
         getCommandeIdUser(this.props.book.ReferenceBook).then(data => {
-          console.log(data.commande[0].etat)
           this.setState({
             CommandeUser: data.commande[0].etat,
           })
         })
+      }
+      componentDidMount() {
+          this.myInterval = setInterval(() => {
+            getCommandeIdUser(this.props.book.ReferenceBook).then(data => {
+              this.setState({
+                CommandeUser: data.commande[0].etat,
+              })
+            })
+          }, 60000)
+      }
 
-        componentWillUnmount = () => {
-          console.log('componentWillUnmount')
-        }
+      componentWillUnmount() {
+          clearInterval(this.myInterval)
+      }
+      renderBook(){
+        
+      }
+
+      renderDetails = () => {
+        const book = this.props.book
+        const { displayDetailForBook } = this.props
         return(
           <View style = {{alignItems: 'center', marginBottom: 10}}> 
               <Text style = {{textAlign : "center"}}>{this.state.CommandeUser}</Text> 
@@ -43,11 +57,12 @@ class LibrairyItem extends React.Component {
                   this.state.CommandeUser == "Commande Expediée" ? (
                   <Progress.Bar progress={0.70} width={350} height={10}/>
                   ):(
-                    this.state.CommandeUser == "Commande Reçue/Phase de Lecture" ? (
+                    this.state.CommandeUser == "Commande Reçu/Phase de Lecture" ? (
                       <View >
                          <Progress.Bar style = {{marginBottom : 5}} progress={1} width={350} height={10} color="green"/>
                           
                           <Button
+                            onPress={() => displayDetailForBook(book.id_book)}
                             title="Rendre le Livre"
                             type="solid"
                           />

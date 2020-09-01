@@ -45,7 +45,6 @@ class Login extends React.Component {
                 })
             }
             else {
-                console.log('trst2')
                 this.setState({
                     textErro : data[1].msg
                 })

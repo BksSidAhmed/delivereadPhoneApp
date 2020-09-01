@@ -24,7 +24,7 @@ const booksReducer = (state = initialState, action) => {
         }
     
         // reset store
-        case 'RESET' : {
+        case 'RESET_BOOKS' : {
             return initialState
         }
         default: {

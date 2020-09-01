@@ -1,5 +1,6 @@
 // Dependance React 
 import * as React from 'react';
+import {View, Text} from 'react-native'
 // Dependance React Navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,16 +8,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
 // Components
-import Librairy from '../components/librairy';
+import Librairy from '../screens/librairy';
 import Profile from '../screens/profile';
-import Books from '../screens/books';
-import BooksDetail from '../components/booksDetail';
+import Books from '../screens/Home/books';
+import BooksDetail from '../screens/Home/booksDetail';
 import Login from '../screens/Auth/login';
 import Register from '../screens/Auth/register';
 import Reservation from '../screens/reservation';
 import Adresse from '../screens/adresse';
 import DrawerContent from '../components/drawerContent'
 import Livreur from '../screens/Livreur/livreur'
+import LibrairyRender from '../screens/Library/librairyRender'
+import LibrairyItem from '../components/librairyItem'
 
 // Components Categorie
 import manga from '../screens/Categorie/manga'
@@ -44,7 +47,7 @@ function LivreurStackScreen() {
   return (
     <LivreurStack.Navigator>
       <LivreurStack.Screen 
-          name="librairy" 
+          name="livreur" 
           component={Livreur}
           options =  {{
             title: 'Deliveread ',
@@ -65,6 +68,18 @@ function HomeStackScreen() {
       <HomeStack.Screen 
           name="librairy" 
           component={Librairy}
+          options =  {{
+            title: 'Deliveread ',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#FF9800',
+            },
+            headerTintColor: '#fff',
+          }}
+      />
+       <HomeStack.Screen 
+          name="librairyRender" 
+          component={LibrairyRender}
           options =  {{
             title: 'Deliveread ',
             headerTitleAlign: 'center',
@@ -291,8 +306,9 @@ class Navigation extends React.Component {
       super(props)
       this.state = {
         statusToken : '',
+        loading : false
       } 
-      // console.log('nav')
+      this._statusToken()
   }
   _statusToken () {
     getToken(this.props.token).then(data => {
@@ -302,9 +318,15 @@ class Navigation extends React.Component {
     })
   }
 
-
   render() {
     // console.log(this.props.RESET_ACTION())
+    if(this.state.loading) {
+      return (
+        <View>
+            <Text>Test</Text>
+        </View>
+      )
+    }
         return (
         <UserInactivity
           timeForInactivity = {1800000}

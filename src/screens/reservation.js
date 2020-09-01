@@ -9,6 +9,7 @@ import { Input, Button, Overlay} from 'react-native-elements'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { Root, Popup} from 'popup-ui';
 import {IncrementBooks} from '../redux/actions/booksAction'
+import {RESET_BOOKS} from '../redux/actions/booksAction'
 // import {DecrementBooks} from '../redux/actions/BooksAction'
 
 class Reservation extends React.Component {
@@ -44,7 +45,7 @@ class Reservation extends React.Component {
         var time = moment(timemoment).add(2, 'h').format('YYYY-MM-DD hh:mm:ss');
         console.log(this.props.books)
         {
-            this.props.books > 5 ? (
+            this.props.books >= 5 ? (
                 Popup.show({
                     type: 'Danger',
                     title: 'Reservation',
@@ -199,15 +200,14 @@ class Reservation extends React.Component {
     }
     render() {
         // const { book } = this.state
-        // this.props.IncrementBooks()
+        // this.props.RESET_BOOKS()
         console.log(this.props.books)
         return (
             <View style={styles.main_container}>
                 {this._displayLoading()}
                 {this._displayBook()}
             </View>
-            
-          )
+        )
     }
 }
 const mapStateToProps = (state) => {
@@ -288,4 +288,4 @@ const styles = StyleSheet.create({
     },
   })
 
-export default connect(mapStateToProps,{IncrementBooks})(Reservation)
+export default connect(mapStateToProps,{IncrementBooks, RESET_BOOKS})(Reservation)
