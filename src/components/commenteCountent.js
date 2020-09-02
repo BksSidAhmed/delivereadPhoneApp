@@ -4,6 +4,7 @@ import { Card } from 'react-native-paper'
 import StarRating from 'react-native-star-rating';
 import { connect } from 'react-redux'
 import { getUserByIdUser } from '../api/index'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 class CommenteCountent extends React.Component {
   constructor(props) {
@@ -24,8 +25,20 @@ class CommenteCountent extends React.Component {
         console.log(commentes)
         return (
                 <Card style={styles.main_container}>
-                    <View style = {{alignItems:'flex-end'}}>                    
-                        <View style = {{width : 70, margin : 20,}}>
+                    <View style = {{alignItems:'flex-end', flexDirection : 'row'}}> 
+                        <View style = {{ flex : 1,margin : 16}}>
+                          <View style = {{flexDirection : 'row'}}>
+                            <View style = {{borderWidth : 1, borderRadius : 20, height : 25, width: 25, justifyContent: 'center', alignItems : 'center'}}>
+                              <FontAwesome5 name="user" color="black" size= {15}></FontAwesome5>
+                            </View>
+                            <View style = {{marginLeft : 10, marginTop : 3}}>
+                              <Text>
+                                {commentes.login}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>                   
+                        <View style = {{width : 70, margin : 22}}>
                             <StarRating
                                 disabled={true}
                                 fullStarColor = {'#E1D706'}
@@ -36,10 +49,9 @@ class CommenteCountent extends React.Component {
                                 selectedStar={(rating) => this.onStarRatingPress(rating)}
                             />
                         </View>
-
                     </View>
-                    <View style = {{margin : 5, flex :1, backgroundColor : '#E5E5E4', borderRadius : 5}}>
-                        <Text style = {{fontSize : 18, margin : 5,}} numberOfLines={6}>{commentes.commentaire}</Text>
+                    <View style = {{margin : 5, flex : 1, backgroundColor : '#ECEFEC', borderRadius : 5, borderWidth : 1}}>
+                        <Text style = {{fontSize : 18, margin : 5, fontStyle: 'italic', color: '#666666'}} numberOfLines={6}>{commentes.commentaire}</Text>
                     </View>
                 </Card>
         )
@@ -48,9 +60,9 @@ class CommenteCountent extends React.Component {
     
     const styles = StyleSheet.create({
       main_container: {
-        flex : 1,
         marginTop : 20,
-        height : 200
+        height : 400,
+        marginBottom : 20
       },
       image: {
         width: 120,

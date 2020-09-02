@@ -222,7 +222,7 @@ export const getToken = async (token) => {
     }
 }
 // Send star note
-export const postStar = async (note , id_user ,id_book) => {
+export const postStar = async (commentaire, note , id_user ,id_book) => {
     const url = 'http://192.168.1.23:3000/api/starUser'
     try {
         const response = await fetch(url, {
@@ -232,6 +232,7 @@ export const postStar = async (note , id_user ,id_book) => {
                 'Content-Type' : 'application/json'
             },
             body:JSON.stringify({
+                commentaire,
                 note,
                 id_user,
                 id_book
