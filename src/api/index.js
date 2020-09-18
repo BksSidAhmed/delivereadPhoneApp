@@ -16,7 +16,24 @@ export const getBooks = async () => {
         return console.error(err);
     }
 }
-
+// Get all BooksSearch
+export const getBookSearch = async (text) => {
+    const url = 'http://192.168.1.23:3000/api/bookSearch/' + text
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        })
+        
+        //console.log(await response.json())
+        return await response.json()      
+    }catch(err){
+        return console.error(err);
+    }
+}
 // Get Books with id
 export const getBooksid = async (id) => {
     const url = 'http://192.168.1.23:3000/api/books/' + id

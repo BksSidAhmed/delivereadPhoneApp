@@ -19,7 +19,7 @@ class Register extends React.Component {
             textErro : ""
         }  
     }
-
+    
     authInputPrenom(text) {
         this.prenom = text
     } 
