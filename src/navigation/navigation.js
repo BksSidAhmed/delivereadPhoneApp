@@ -20,6 +20,8 @@ import DrawerContent from '../components/drawerContent'
 import Livreur from '../screens/Livreur/livreur'
 import LibrairyRender from '../screens/Library/librairyRender'
 import LibrairyItem from '../components/librairyItem'
+import Subscription from '../screens/Payment/subscription'
+import TypeSubscription from '../screens/Payment/typeSubscription'
 
 // Components Categorie
 import manga from '../screens/Categorie/manga'
@@ -148,7 +150,7 @@ function BooksStackScreen() {
             title: 'Deliveread ',
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#FF9800',
+              backgroundColor: '#EF800B',
             },
             headerTintColor: '#fff',
           }}
@@ -160,7 +162,31 @@ function BooksStackScreen() {
             title: 'Livraison ',
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#FF9800',
+              backgroundColor: '#EF800B',
+            },
+            headerTintColor: '#fff',
+          }}
+        />
+        <BooksStack.Screen 
+          name="Subscription" 
+          component={Subscription} 
+          options =  {{
+            title: 'Subscription ',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#EF800B',
+            },
+            headerTintColor: '#fff',
+          }}
+        />
+        <BooksStack.Screen 
+          name="TypeSubscription" 
+          component={TypeSubscription} 
+          options =  {{
+            title: 'Subscription',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#EF800B',
             },
             headerTintColor: '#fff',
           }}

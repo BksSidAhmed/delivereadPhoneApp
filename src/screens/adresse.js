@@ -8,7 +8,8 @@ class Adresse extends React.Component {
         super(props)
         this.state = {
             adresse : ''
-          } 
+          }
+          console.log(this.props.route.params.id_book) 
     }
     render() {
         return (

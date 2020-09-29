@@ -11,6 +11,7 @@ import Carousel from 'react-native-snap-carousel';
 import CommenteCountent from '../../components/commenteCountent'
 import {Overlay} from 'react-native-elements'
 import { Root, Popup} from 'popup-ui';
+import { getSubscription } from '../../api/api_Payment'
 
 class BooksDetail extends React.Component {
   constructor(props) {
@@ -27,7 +28,8 @@ class BooksDetail extends React.Component {
       isSelected: false,
       iconCommentaire : 'arrow-circle-down', 
       isVisible : false, 
-      noteCancel : false
+      noteCancel : false, 
+      status : ''
     }
   }
 
@@ -48,12 +50,17 @@ class BooksDetail extends React.Component {
   }    
 
 componentWillMount() {
+  getSubscription().then(data => {
+      this.setState({
+        status : data.status
+      })
+
+  })
   getStar(this.props.idUser,this.props.route.params.id_book).then(data => {
     if(data[1].commentaire[0] !== undefined) {
       this.setState({
         noteCancel : true
       })
-
     }
   })
   getStatStar(this.props.route.params.id_book).then(data => {
@@ -293,8 +300,14 @@ _commentaire = () => {
   )
 }
 _reservation = () => {
-  this.props.navigation.navigate('Adresse', { id_book : this.props.route.params.id_book})
+  if(this.state.status == 'active') {
+    this.props.navigation.navigate('Adresse', { id_book : this.props.route.params.id_book})
+  }
+  else {
+    this.props.navigation.navigate('TypeSubscription', { id_book : this.props.route.params.id_book})
+  }
 }
+
 _buttonNoter () {
   if (this.state.noteCancel == true) {  
      return(      
