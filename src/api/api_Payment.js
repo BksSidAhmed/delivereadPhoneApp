@@ -64,9 +64,9 @@ export const postSubscription = async (customer, paymentMethod) => {
 }
 
 // Get Subscription
-export const getSubscription = async () => {
+export const getSubscription = async (id) => {
     console.log('test')
-    const url = 'http://192.168.1.23:3000/payment/getSubscription/sub_I6yCttgjyoRcOG'
+    const url = 'http://192.168.1.23:3000/payment/getSubscription/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -74,6 +74,28 @@ export const getSubscription = async () => {
                 'Accept' : 'application/json',
                 'Content-Type' : 'application/json'
             }
+        })
+        return await response.json()      
+    }catch(err){
+        return console.error(err);
+    }
+}
+// Post Create Tokens
+export const postCreateTokens = async (number, month, years, cvc) => {
+    const url = 'http://192.168.1.23:3000/payment/createTokens'
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body:JSON.stringify({
+                number: number,
+                month: month,
+                years: years,
+                cvc: cvc
+            }),
         })
         return await response.json()      
     }catch(err){

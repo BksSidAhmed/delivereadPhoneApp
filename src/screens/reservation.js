@@ -43,7 +43,6 @@ class Reservation extends React.Component {
     _buttonCommande() {
         var timemoment = moment().format('YYYY-MM-DD hh:mm:ss')
         var time = moment(timemoment).add(2, 'h').format('YYYY-MM-DD hh:mm:ss');
-        console.log(this.props.books)
         {
             this.props.books >= 5 ? (
                 Popup.show({
@@ -201,7 +200,6 @@ class Reservation extends React.Component {
     render() {
         // const { book } = this.state
         // this.props.RESET_BOOKS()
-        console.log(this.props.books)
         return (
             <View style={styles.main_container}>
                 {this._displayLoading()}

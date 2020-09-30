@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, ActivityIndicator, ScrollView , Text , Image, TouchableOpacity, TextInput} from 'react-native'
-import { getBooksid, postStar, getStar, getStatStar, getStatStarUser, getCommentaireAll } from '../../api/index'
+import { getBooksid, postStar, getStar, getStatStar, getStatStarUser, getCommentaireAll, getIdAbonnement } from '../../api/index'
 import moment from 'moment'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -29,7 +29,8 @@ class BooksDetail extends React.Component {
       iconCommentaire : 'arrow-circle-down', 
       isVisible : false, 
       noteCancel : false, 
-      status : ''
+      status : '', 
+      idAbonnement : ''
     }
   }
 
@@ -49,13 +50,13 @@ class BooksDetail extends React.Component {
     }
   }    
 
-componentWillMount() {
-  getSubscription().then(data => {
+  componentWillMount() {
+    getIdAbonnement(this.props.idUser).then(data => {
       this.setState({
-        status : data.status
+        idAbonnement : data.user[0].id_abonnement
       })
-
   })
+
   getStar(this.props.idUser,this.props.route.params.id_book).then(data => {
     if(data[1].commentaire[0] !== undefined) {
       this.setState({
@@ -76,7 +77,6 @@ componentWillMount() {
         }
   })
   getStatStarUser(this.props.route.params.id_book).then(data => {
-    console.log(data[1].note[0].nombreVotant)
     if(data[1].note[0].nombreVotant == 0) {
           this.setState({
             nombreVotant : 0
@@ -300,11 +300,19 @@ _commentaire = () => {
   )
 }
 _reservation = () => {
-  if(this.state.status == 'active') {
-    this.props.navigation.navigate('Adresse', { id_book : this.props.route.params.id_book})
+  console.log()
+  if(this.state.idAbonnement == null) {
+    this.props.navigation.navigate('TypeSubscription', { id_book : this.props.route.params.id_book})
   }
   else {
-    this.props.navigation.navigate('TypeSubscription', { id_book : this.props.route.params.id_book})
+    getSubscription(this.state.idAbonnement).then(data => {
+      if(data.status == 'active') {
+        this.props.navigation.navigate('Adresse', { id_book : this.props.route.params.id_book})
+      }
+      else {
+        this.props.navigation.navigate('TypeSubscription', { id_book : this.props.route.params.id_book})
+      }
+    })
   }
 }
 
@@ -437,6 +445,7 @@ const mapStateToProps = (state) => {
   // Redux Store --> Component
  return {
     idUser: state.idUserReducer.idUser,
+    idAbonnement: state.idAbonementReducer.idAbonnement
  }
 }
 export default connect(mapStateToProps) (BooksDetail)

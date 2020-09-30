@@ -10,7 +10,6 @@ export const getBooks = async () => {
             }
         })
         
-        //console.log(await response.json())
         return await response.json()      
     }catch(err){
         return console.error(err);
@@ -27,9 +26,7 @@ export const getBookSearch = async (text) => {
                 'Content-Type' : 'application/json'
             }
         })
-        
-        //console.log(await response.json())
-        return await response.json()      
+            return await response.json()      
     }catch(err){
         return console.error(err);
     }
@@ -102,6 +99,7 @@ export const getUserByIdUser = async (id) => {
         return console.error(err);
     }
 }
+
 // Post New data user
 export const postNewDataUser = async (textChamp , valDataUser ,id) => {
     const url = 'http:/192.168.1.23:3000/api/user/' + textChamp + '/'+id
@@ -143,6 +141,45 @@ export const postUser = async (login , mdp) => {
         })
         const statusCode = response.status
         return await Promise.all([statusCode,response.json()])
+        
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+// Post id Abonnement
+export const postIdAbonnement = async (id, idAbonnement) => {
+    const url = 'http://192.168.1.23:3000/api/userAbonnementpost/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body:JSON.stringify({
+                idAbonnement,
+            }),
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+        
+    }catch(err){
+        return console.error(err);
+    }
+}
+//get id Abonnement
+export const getIdAbonnement = async (id) => {
+    const url = 'http://192.168.1.23:3000/api/userAbonnementget/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        })
+        return await response.json()
         
     }catch(err){
         return console.error(err);
