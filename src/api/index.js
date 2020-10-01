@@ -126,7 +126,6 @@ export const postNewDataUser = async (textChamp , valDataUser ,id) => {
 // Post User Login
 export const postUser = async (login , mdp) => {
     const url = 'http://192.168.1.23:3000/api/login/'
-    
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -141,45 +140,6 @@ export const postUser = async (login , mdp) => {
         })
         const statusCode = response.status
         return await Promise.all([statusCode,response.json()])
-        
-    }catch(err){
-        return console.error(err);
-    }
-}
-
-// Post id Abonnement
-export const postIdAbonnement = async (id, idAbonnement) => {
-    const url = 'http://192.168.1.23:3000/api/userAbonnementpost/' + id
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept' : 'application/json',
-                'Content-Type' : 'application/json'
-            },
-            body:JSON.stringify({
-                idAbonnement,
-            }),
-        })
-        const statusCode = response.status
-        return await Promise.all([statusCode,response.json()])
-        
-    }catch(err){
-        return console.error(err);
-    }
-}
-//get id Abonnement
-export const getIdAbonnement = async (id) => {
-    const url = 'http://192.168.1.23:3000/api/userAbonnementget/' + id
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept' : 'application/json',
-                'Content-Type' : 'application/json'
-            }
-        })
-        return await response.json()
         
     }catch(err){
         return console.error(err);
@@ -364,6 +324,127 @@ export const getCommentaireAll = async (id_book) => {
         })
         const statusCode = response.status
         return await Promise.all([statusCode,response.json()])
+        
+    }catch(err){
+        return console.error(err);
+    }
+}
+                                                ////USER
+//POST 
+// Post NbBookCommandepostplus
+export const postNbBookCommandePlus = async (id) => {
+    const url = 'http://192.168.1.23:3000/api/nbBookCommandepostplus/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+        
+    }catch(err){
+        return console.error(err);
+    }
+}
+// Post NbBookCommandepostmoins
+export const postNbBookCommandeMoins = async (id) => {
+    const url = 'http://192.168.1.23:3000/api/nbBookCommandepostmoins/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+        
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+//GET
+//get NbBookCommandeget
+export const getNbBookCommande = async (id) => {
+    const url = 'http://192.168.1.23:3000/api/nbBookCommandeget/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        })
+        return await response.json()
+        
+    }catch(err){
+        return console.error(err);
+    }
+}
+                                                ////ABONNEMENT
+//POST
+// Post id Abonnement
+export const postIdAbonnement = async (id, idAbonnement) => {
+    const url = 'http://192.168.1.23:3000/api/userAbonnementpost/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body:JSON.stringify({
+                idAbonnement,
+            }),
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+        
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+// Post Token
+export const postTokenAB = async (id, tokenAbonnement) => {
+    const url = 'http://192.168.1.23:3000/api/userTokenABPost/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body:JSON.stringify({
+                tokenAbonnement,
+            }),
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+        
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+
+//get id Abonnement
+export const getIdAbonnement = async (id) => {
+    const url = 'http://192.168.1.23:3000/api/userAbonnementget/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        })
+        return await response.json()
         
     }catch(err){
         return console.error(err);

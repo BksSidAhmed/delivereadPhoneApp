@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList,Text } from 'react-native'
 // Api
 import { getBooksIdUser } from '../api/index'
 // Redux
 import { connect } from 'react-redux'
 import LibrairyItem from '../components/librairyItem'
+import { View } from 'react-native-animatable'
 
 class Librairy extends React.Component {
   constructor(props) {
@@ -25,8 +26,17 @@ _displayDetailForBook = (id_book) => {
   this.props.navigation.navigate('librairyRender', { id_book : id_book})
 }
     render() {
+      if(this.state.booksUser.length == 0){
+        return(
+          <View style = {{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
+            <Text>
+              Vous n'avez commander aucun livre....
+            </Text>
+          </View>
+        )
+      }
+      console.log(this.state.booksUser)
       return (
-        // Components/Search.js
             <FlatList
                 data={this.state.booksUser}
                 keyExtractor={(item) => item.id_book.toString()}

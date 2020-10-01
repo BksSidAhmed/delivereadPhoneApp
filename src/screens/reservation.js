@@ -3,14 +3,13 @@ import React from "react";
 import {View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Keyboard } from 'react-native'
 // Redux
 import { connect } from 'react-redux'
-import { getBooksid, postCommandeBook, postCommandeBookid } from '../api/index'
+import { getBooksid, postCommandeBook, postCommandeBookid, postNbBookCommandePlus, getNbBookCommande } from '../api/index'
 import moment from 'moment'
 import { Input, Button, Overlay} from 'react-native-elements'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { Root, Popup} from 'popup-ui';
 import {IncrementBooks} from '../redux/actions/booksAction'
 import {RESET_BOOKS} from '../redux/actions/booksAction'
-// import {DecrementBooks} from '../redux/actions/BooksAction'
 
 class Reservation extends React.Component {
     
@@ -24,12 +23,18 @@ class Reservation extends React.Component {
             adresse : '',
             textErro : "",
             isVisible: false,
+            nbBook : null,
           } 
           this.props.route.params.adress
         //{this.props.idUser}
     }
 
     componentDidMount() {
+        getNbBookCommande(this.props.idUser).then(data => {
+            this.setState({
+                nbBook: data.user[0].NbBookCommande,
+            })
+        })
         getBooksid(this.props.route.params.id_book).then(data => {
             this.setState({
                 book: data.book,
@@ -43,8 +48,9 @@ class Reservation extends React.Component {
     _buttonCommande() {
         var timemoment = moment().format('YYYY-MM-DD hh:mm:ss')
         var time = moment(timemoment).add(2, 'h').format('YYYY-MM-DD hh:mm:ss');
+        console.log(this.state.nbBook)
         {
-            this.props.books >= 5 ? (
+            this.state.nbBook >= 5 ? (
                 Popup.show({
                     type: 'Danger',
                     title: 'Reservation',
@@ -79,7 +85,10 @@ class Reservation extends React.Component {
                                 this.props.navigation.navigate('books')
                             })
                         })
-                        this.props.IncrementBooks()
+                        // this.props.IncrementBooks()
+                        postNbBookCommandePlus(this.props.idUser).then(data => {
+                            console.log(data)
+                        })
                     }
                 })
             )

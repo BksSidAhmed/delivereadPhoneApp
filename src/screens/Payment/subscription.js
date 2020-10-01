@@ -3,11 +3,9 @@ import { Text, View, StyleSheet, ScrollView, Button, TouchableOpacity,ActivityIn
 
 } from 'react-native';
 import { postPaymentMethods, postCustomers, postSubscription, postCreateTokens} from '../../api/api_Payment'
-import { postIdAbonnement} from '../../api/index'
+import { postIdAbonnement, getUserByIdUser, postTokenAB} from '../../api/index'
 import { CreditCardInput} from "react-native-credit-card-input";
-import { getUserByIdUser} from '../../api/index'
 import { connect } from 'react-redux'
-import {idAbonementAction} from '../../redux/actions/idAbonementAction'
 import {Overlay} from 'react-native-elements'
 
 class Subscription extends React.Component { 
@@ -41,7 +39,9 @@ class Subscription extends React.Component {
             loading: true,
         })
         postCreateTokens(number,month,years,cvc).then(data => {
-            console.log(data.id)
+            postTokenAB(this.props.idUser,data.id).then(data => {
+                console.log(data)
+            })
         })
         postPaymentMethods(number,month,years,cvc).then(data => {
             this.setState({
@@ -156,4 +156,4 @@ const mapStateToProps = (state) => {
        idAbonnement: state.idAbonementReducer.idAbonnement
    }
 }
-export default connect(mapStateToProps, {idAbonementAction})(Subscription)
+export default connect(mapStateToProps)(Subscription)

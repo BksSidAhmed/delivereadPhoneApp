@@ -55,7 +55,7 @@ function LivreurStackScreen() {
             title: 'Deliveread ',
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#FF9800',
+              backgroundColor: '#EF800B',
             },
             headerTintColor: '#fff',
           }}
@@ -74,7 +74,7 @@ function HomeStackScreen() {
             title: 'Deliveread ',
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#FF9800',
+              backgroundColor: '#EF800B',
             },
             headerTintColor: '#fff',
           }}
@@ -86,7 +86,7 @@ function HomeStackScreen() {
             title: 'Deliveread ',
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#FF9800',
+              backgroundColor: '#EF800B',
             },
             headerTintColor: '#fff',
           }}
@@ -106,7 +106,7 @@ function SettingsStackScreen() {
             title: 'Deliveread ',
             headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: '#FF9800',
+              backgroundColor: '#EF800B',
             },
             headerTintColor: '#fff',
           }}
@@ -206,7 +206,7 @@ function AuthStackScreen() {
                     title: 'Deliveread ',
                     headerTitleAlign: 'center',
                     headerStyle: {
-                      backgroundColor: '#FF9800',
+                      backgroundColor: '#EF800B',
                     },
                     headerTintColor: '#fff',
                   }}
@@ -218,7 +218,7 @@ function AuthStackScreen() {
                     title: 'Creation de Compte ',
                     headerTitleAlign: 'center',
                     headerStyle: {
-                      backgroundColor: '#FF9800',
+                      backgroundColor: '#EF800B',
                     },
                     headerTintColor: '#fff',
                   }}

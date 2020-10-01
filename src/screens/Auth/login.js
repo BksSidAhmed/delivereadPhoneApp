@@ -32,7 +32,7 @@ class Login extends React.Component {
     }
     
     connexion(){
-        postUser(this.username,this.password).then(data => {
+        postUser(this.username, this.password).then(data => {
             if(data[0] == 200) {      
                 this.setState({
                     loading : true
@@ -60,6 +60,7 @@ class Login extends React.Component {
 
         })
     }
+
     render() {
         if(this.state.loading) {
             return(
