@@ -10,6 +10,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { Root, Popup} from 'popup-ui';
 import {IncrementBooks} from '../redux/actions/booksAction'
 import {RESET_BOOKS} from '../redux/actions/booksAction'
+import MapView, { Callout, Marker } from 'react-native-maps';
 
 class Reservation extends React.Component {
     
@@ -25,7 +26,8 @@ class Reservation extends React.Component {
             isVisible: false,
             nbBook : null,
           } 
-          this.props.route.params.adress
+          console.log(this.props.route.params.lat)
+        //   this.props.route.params.adress
         //{this.props.idUser}
     }
 
@@ -128,47 +130,47 @@ class Reservation extends React.Component {
             return ( 
                 <Root>
                     <View style={styles.main_container}>
-                            <View style = {styles.content_header}>
-                                <Image
-                                    style={styles.image}
-                                    source={{uri: 'data:image/png;base64,' + book[0].image}}
-                                />
-                                <View style={styles.content_title_info}>
-                                    <View>
-                                        <Text style={styles.title_text} numberOfLines={1}> {book[0].titre}</Text>
+                        <View style = {styles.content_header}>
+                            <Image
+                                style={styles.image}
+                                source={{uri: 'data:image/png;base64,' + book[0].image}}
+                            />
+                            <View style={styles.content_title_info}>
+                                <View>
+                                    <Text style={styles.title_text} numberOfLines={1}> {book[0].titre}</Text>
+                                </View>
+                                <View style={styles.content_infoBook}>
+                                    <View style={styles.content_Auteur} >
+                                        <Text style={styles.info_text}> Auteur : </Text>
+                                        <Text style={styles.info_textbdd}> {book[0].auteur}</Text>
                                     </View>
-                                    <View style={styles.content_infoBook}>
-                                        <View style={styles.content_Auteur} >
-                                            <Text style={styles.info_text}> Auteur : </Text>
-                                            <Text style={styles.info_textbdd}> {book[0].auteur}</Text>
-                                        </View>
-                                        <View style={styles.content_Auteur} >
-                                            <Text style={styles.info_text}> Editeur : </Text>
-                                            <Text style={styles.info_textbdd}> {book[0].editeur}</Text>
-                                        </View>
-                                        <View style={styles.content_Auteur} >
-                                            <Text style={styles.info_text}> Collection : </Text>                                  
-                                            <Text style={styles.info_textbdd}> {book[0].collection}</Text>
-                                        </View>
-                                        <View style={styles.content_Auteur} >
-                                            <Text style={styles.info_text}> Nombre de page :</Text>
-                                            <Text style={styles.info_textbdd}> {book[0].nombrePage}</Text>
-                                        </View>
-                                        <View style={styles.content_Auteur} >
-                                            <Text style={styles.info_text}> Publication :</Text>
-                                            <Text style={styles.info_textbdd}> {moment(new Date(book[0].dateSortie)).format('DD/MM/YYYY')}</Text>
-                                        </View>
-                                        <TouchableOpacity 
-                                            onPress = {() => this.synopsys()}
-                                            style={styles.TouchableOpacitySynopsys}>
-                                            <Text style = {styles.synopsys_text}>Synopsys -></Text>
-                                        </TouchableOpacity>
-                                        </View>
+                                    <View style={styles.content_Auteur} >
+                                        <Text style={styles.info_text}> Editeur : </Text>
+                                        <Text style={styles.info_textbdd}> {book[0].editeur}</Text>
+                                    </View>
+                                    <View style={styles.content_Auteur} >
+                                        <Text style={styles.info_text}> Collection : </Text>                                  
+                                        <Text style={styles.info_textbdd}> {book[0].collection}</Text>
+                                    </View>
+                                    <View style={styles.content_Auteur} >
+                                        <Text style={styles.info_text}> Nombre de page :</Text>
+                                        <Text style={styles.info_textbdd}> {book[0].nombrePage}</Text>
+                                    </View>
+                                    <View style={styles.content_Auteur} >
+                                        <Text style={styles.info_text}> Publication :</Text>
+                                        <Text style={styles.info_textbdd}> {moment(new Date(book[0].dateSortie)).format('DD/MM/YYYY')}</Text>
+                                    </View>
+                                    <TouchableOpacity 
+                                        onPress = {() => this.synopsys()}
+                                        style={styles.TouchableOpacitySynopsys}>
+                                        <Text style = {styles.synopsys_text}>Synopsys -></Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                         <View style = {styles.content_body}>  
                             <View>
-                                <Input 
+                                {/* <Input 
                                     placeholder = 'Adresse de livraison'
                                     value={this.state.adresse}
                                     disabled = {true}
@@ -181,7 +183,23 @@ class Reservation extends React.Component {
                                         />
                                     }
                                     placeholderTextColor='black'
-                                />
+                                /> */}
+                                <MapView
+                                    style = {{height : 200}}
+                                    initialRegion={{
+                                        latitude: this.props.route.params.lat,
+                                        longitude: this.props.route.params.lng,
+                                        latitudeDelta: 0.0922,
+                                        longitudeDelta: 0.0421,
+                                    }}>
+                                    <Marker 
+                                        coordinate = {{ latitude : this.props.route.params.lat, longitude : this.props.route.params.lng}}>
+                                        <Callout>
+                                            <Text>{this.props.route.params.adress}</Text>
+                                        </Callout>
+                                    </Marker>
+                                </MapView>
+
                             <Button
                                 astyle = {{justifyContent : 'center'}}
                                 title="Valider votre commande"
@@ -189,9 +207,9 @@ class Reservation extends React.Component {
                                 onPress = {() => this._buttonCommande()}
                             />
                             </View>
-                            {this.Overlay()}
                         </View>
                     </View>
+                    {this.Overlay()}
                 </Root>
             )
         }
@@ -225,9 +243,6 @@ const mapStateToProps = (state) => {
 }
 
 const styles = StyleSheet.create({
-    main_container: {
-        flex : 1,
-    },
     loading_container: {
         position: 'absolute',
         left: 0,
@@ -237,9 +252,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
       },
+    main_container: {
+        flex : 1,
+    },
     content_header: {
         flexDirection: 'row',
-        flex : 2
+        flex : 0.5
     },
     content_body: {
         flex : 1,

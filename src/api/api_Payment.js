@@ -65,7 +65,6 @@ export const postSubscription = async (customer, paymentMethod) => {
 
 // Get Subscription
 export const getSubscription = async (id) => {
-    console.log('test')
     const url = 'http://192.168.1.23:3000/payment/getSubscription/' + id
     try {
         const response = await fetch(url, {

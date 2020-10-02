@@ -21,11 +21,16 @@ class Adresse extends React.Component {
                                 }}
                                 placeholder='Adresse de Livraison'
                                 enablePoweredByContainer = {false}
-                                fetchDetails = {false}
-                                onPress={(data, details = null) => {                                    
-                                    const adresse = data.description
+                                fetchDetails = {true}
+                                onPress={(data, details = null) => {   
+                                    const lat = details.geometry.location.lat
+                                    const lng = details.geometry.location.lng
+                                    const adresse = data.description                           
                                     this.props.navigation.navigate('Reservation', { id_book : this.props.route.params.id_book})
                                     this.props.navigation.navigate('Reservation',  {adress : adresse })
+                                    this.props.navigation.navigate('Reservation',  {lat : lat })
+                                    this.props.navigation.navigate('Reservation',  {lng : lng })
+
                                 }}              
                                 styles={{
                                     textInputContainer: {

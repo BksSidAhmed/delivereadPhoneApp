@@ -35,7 +35,6 @@ _displayDetailForBook = (id_book) => {
           </View>
         )
       }
-      console.log(this.state.booksUser)
       return (
             <FlatList
                 data={this.state.booksUser}

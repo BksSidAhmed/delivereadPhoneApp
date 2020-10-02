@@ -300,7 +300,6 @@ _commentaire = () => {
   )
 }
 _reservation = () => {
-  console.log()
   if(this.state.idAbonnement == null) {
     this.props.navigation.navigate('TypeSubscription', { id_book : this.props.route.params.id_book})
   }
