@@ -17,7 +17,9 @@ import Register from '../screens/Auth/register';
 import Reservation from '../screens/reservation';
 import Adresse from '../screens/adresse';
 import DrawerContent from '../components/drawerContent'
+import DrawerContentLivreur from '../components/drawerContentLivreur'
 import Livreur from '../screens/Livreur/livreur'
+import CommandeDetail from '../screens/Livreur/commandeDetail'
 import LibrairyRender from '../screens/Library/librairyRender'
 import LibrairyItem from '../components/librairyItem'
 import Subscription from '../screens/Payment/subscription'
@@ -56,6 +58,18 @@ function LivreurStackScreen() {
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: '#EF800B',
+            },
+            headerTintColor: '#fff',
+          }}
+      />
+      <LivreurStack.Screen 
+          name="commandeDetail" 
+          component={CommandeDetail}
+          options =  {{
+            title: 'Deliveread ',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#FF9800',
             },
             headerTintColor: '#fff',
           }}
@@ -281,6 +295,12 @@ const DrawerScreen = () => (
   </Drawer.Navigator>
 );
 
+const DrawerLivreur = createDrawerNavigator();
+const DrawerScreenLivreur = () => (
+  <DrawerLivreur.Navigator initialRouteName="Home" drawerContent= { props => <DrawerContentLivreur {...props}/>}>
+    <DrawerLivreur.Screen name="Home" component={LivreurStackScreen}/>
+  </DrawerLivreur.Navigator>
+);
 
 const RootStack = createStackNavigator();
 const RootStackScreen = ({token, idRole}) => (
@@ -311,7 +331,7 @@ const RootStackScreen = ({token, idRole}) => (
               animationEnabled: false
             }}        
             name="Livreur"
-            component={LivreurStackScreen}
+            component={DrawerScreenLivreur}
           />
         ) : (
           <RootStack.Screen
