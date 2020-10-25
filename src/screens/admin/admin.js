@@ -1,10 +1,10 @@
 import React from 'react';
 import { FlatList, ActivityIndicator, View} from 'react-native'
-import { getCommande } from '../../api/index'
-import CommandesItem from './commandesItem'
+import { getCommandeAdmin } from '../../api/index'
+import AdminItem from './adminItem'
 
 
-class Livreur extends React.Component {
+class Admin extends React.Component {
 
     constructor(props) {
         super(props)
@@ -20,7 +20,7 @@ class Livreur extends React.Component {
             loading : true
         })
           try {
-            getCommande().then(data => {
+            getCommandeAdmin().then(data => {
                 this.setState({ 
                     loading : false,
                     Commandes: data.book,
@@ -33,15 +33,15 @@ class Livreur extends React.Component {
     };
 
     _displayDetailForFilm = (id_Commande) => {
-        this.props.navigation.navigate('commandeDetail', { id_Commande : id_Commande , test: 'test'})
+        this.props.navigation.navigate('adminDetail', { id_Commande : id_Commande , test: 'test'})
     }
 
     render() {
+        // console.log(this.state.Commandes)
         if(this.state.loading) {
             return(
                 <View style={{flex: 1,justifyContent: "center"}}>
                     <ActivityIndicator size="large" color="#00ff00" />
-              
                 </View>
             )
         }
@@ -51,12 +51,12 @@ class Livreur extends React.Component {
                 <FlatList
                     data={this.state.Commandes}
                     keyExtractor={(item) =>item.id_Commande.toString()}
-                    renderItem={({item}) => <CommandesItem commande  = {item}  displayDetailForFilm={this._displayDetailForFilm} />}
+                    renderItem={({item}) => <AdminItem commande  = {item}  displayDetailForFilm={this._displayDetailForFilm} />}
                     onEndReachedThreshold={0.5}
                 />
-            </View>
+                </View>
         )
     }
 }
 
-export default Livreur
+export default Admin

@@ -40,10 +40,7 @@ class LibrairyItem extends React.Component {
       componentWillUnmount() {
           clearInterval(this.myInterval)
       }
-      renderBook(){
-        
-      }
-
+      
       renderDetails = () => {
         const book = this.props.book
         const { displayDetailForBook } = this.props
@@ -54,10 +51,10 @@ class LibrairyItem extends React.Component {
                 this.state.CommandeUser == "Commande en cours de Traitement" ? (
                   <Progress.Bar progress={0.35} width={350} height={10}/>
                 ):(
-                  this.state.CommandeUser == "Commande Expediée" ? (
+                  this.state.CommandeUser == "Commande remis au livreur" ? (
                   <Progress.Bar progress={0.70} width={350} height={10}/>
                   ):(
-                    this.state.CommandeUser == "Commande Reçu/Phase de Lecture" ? (
+                    this.state.CommandeUser == "Phase de lecture" ? (
                       <View >
                          <Progress.Bar style = {{marginBottom : 5}} progress={1} width={350} height={10} color="green"/>
                           

@@ -6,7 +6,7 @@ import { postPaymentMethods, postCustomers, postSubscription, postCreateTokens} 
 import { postIdAbonnement, getUserByIdUser, postTokenAB} from '../../api/index'
 import { CreditCardInput} from "react-native-credit-card-input";
 import { connect } from 'react-redux'
-import {Overlay} from 'react-native-elements'
+import { Root, Popup } from 'popup-ui';
 
 class Subscription extends React.Component { 
     constructor(props) {
@@ -63,37 +63,18 @@ class Subscription extends React.Component {
             })
         })
     }
-    Overlay() {
-        return (
-            <Overlay isVisible={this.state.isVisible} onBackdropPress={() => this.setState({ isVisible: false })} overlayStyle = {{height : 400, width: 300}}>
-                    <View style = {{flex:1}}>
-                        <View style = {{ flex : 1}}>
-                            <Text style = {{fontSize : 20}}>
-                                Details de la commande
-                            </Text>
-                            <Text style = {{marginTop : 5, fontSize : 15}}>
-                                Nom : 
-                            </Text>
-                            <Text style = {{marginTop : 5, fontSize : 15}}>
-                                Email : 
-                            </Text>
-                        </View>
-                    <View style = {{flexDirection: 'row'}}>
-                        <TouchableOpacity
-                            onPress ={() => this._subscribe()}
-                            style = {{flex: 1, margin: 10, backgroundColor : '#6DC3F7', borderRadius : 5}}>
-                            <Text style= {{fontSize : 20, color : 'white', textAlign : 'center'}}>S'abonner</Text>
-                        </TouchableOpacity>
-                    </View>
-                    </View>
-            </Overlay>
-        )
-    }
+
     payement(){
-        this.setState({
-            isVisible: true
-        })
+        Popup.show({
+            type: 'Success',
+            title: "S'abonner ?",
+            textBody: this.state.textErro,
+            button: false,
+            buttonText: 'Ok',
+            callback: () =>  this._subscribe()
+        }) 
     }
+    
     render(){
         if(this.state.loading) {
             return(
@@ -103,6 +84,7 @@ class Subscription extends React.Component {
             )
         }
         return(
+            <Root>
             <ScrollView style = {styles.main_containers}>
                     <View style= { styles.container_text }>
                         <Text style = {styles.text_subscribe}>Abonnement à 16.99€/mois </Text>
@@ -117,8 +99,8 @@ class Subscription extends React.Component {
                         onPress={() => {this.payement()}}
                     />
                 </View>
-                {this.Overlay()}
             </ScrollView>
+            </Root>
         );
     }
 }

@@ -20,6 +20,10 @@ import DrawerContent from '../components/drawerContent'
 import DrawerContentLivreur from '../components/drawerContentLivreur'
 import Livreur from '../screens/Livreur/livreur'
 import CommandeDetail from '../screens/Livreur/commandeDetail'
+//ADMIN 
+import Admin from '../screens/admin/admin'
+import AdminDetail from '../screens/admin/adminDetails'
+
 import LibrairyRender from '../screens/Library/librairyRender'
 import LibrairyItem from '../components/librairyItem'
 import Subscription from '../screens/Payment/subscription'
@@ -45,6 +49,38 @@ import { AuthContext } from "../context/context";
 
 import UserInactivity from 'react-native-user-inactivity'
 import BackgroundTimer from 'react-native-user-inactivity/lib/BackgroundTimer'
+
+const AdminStack = createStackNavigator();
+function AdminStackScreen() {
+  return (
+    <AdminStack.Navigator>
+      <AdminStack.Screen 
+          name="admin" 
+          component={Admin}
+          options =  {{
+            title: 'Deliveread ',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#EF800B',
+            },
+            headerTintColor: '#fff',
+          }}
+      />
+      <AdminStack.Screen 
+          name="adminDetail" 
+          component={AdminDetail}
+          options =  {{
+            title: 'Deliveread ',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#FF9800',
+            },
+            headerTintColor: '#fff',
+          }}
+      />
+    </AdminStack.Navigator>
+  );
+}
 
 const LivreurStack = createStackNavigator();
 function LivreurStackScreen() {
@@ -301,7 +337,12 @@ const DrawerScreenLivreur = () => (
     <DrawerLivreur.Screen name="Home" component={LivreurStackScreen}/>
   </DrawerLivreur.Navigator>
 );
-
+const DrawerAdmin = createDrawerNavigator();
+const DrawerScreenAdmin = () => (
+  <DrawerAdmin.Navigator initialRouteName="Home" drawerContent= { props => <DrawerContentLivreur {...props}/>}>
+    <DrawerAdmin.Screen name="Home" component={AdminStackScreen}/>
+  </DrawerAdmin.Navigator>
+);
 const RootStack = createStackNavigator();
 const RootStackScreen = ({token, idRole}) => (
   <RootStack.Navigator headerMode="none">
@@ -324,15 +365,22 @@ const RootStackScreen = ({token, idRole}) => (
               }}
             />
         )
-      ) : (
-        idRole == 4 ? (
-          <RootStack.Screen
-            options={{
-              animationEnabled: false
-            }}        
-            name="Livreur"
-            component={DrawerScreenLivreur}
-          />
+      ) : idRole == 4 ? (
+            <RootStack.Screen
+              options={{
+                animationEnabled: false
+              }}        
+              name="Livreur"
+              component={DrawerScreenLivreur}
+            />
+      ) : idRole == 1 ? (
+            <RootStack.Screen
+              options={{
+                animationEnabled: false
+              }}        
+              name="Admin"
+              component={DrawerScreenAdmin}
+            />
         ) : (
           <RootStack.Screen
               name="Auth"
@@ -341,8 +389,7 @@ const RootStackScreen = ({token, idRole}) => (
                 animationEnabled: false
               }}
             />
-        )
-      )
+        ) 
     }  
   </RootStack.Navigator>
 );

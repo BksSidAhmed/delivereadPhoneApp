@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, StatusBar } from 'reac
 import moment from 'moment'
 import { getImage } from '../../api/index'
 
-class CommandesItem extends React.Component {
+class AdminItem extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -12,9 +12,10 @@ class CommandesItem extends React.Component {
     render() {
         const commande = this.props.commande
         const { displayDetailForFilm } = this.props
+        console.log(commande)
         return (
           <TouchableOpacity 
-              style={[commande.etat == "Commande en cours de Traitement" ? styles.main_container : styles.main_container2]}  
+              style={styles.main_container}  
               onPress={() => displayDetailForFilm(commande.id_Commande)}
             >
             <StatusBar backgroundColor='#EF800B' barStyle="light-content"/>
@@ -47,15 +48,7 @@ class CommandesItem extends React.Component {
         flexDirection: 'row',
         borderWidth: 1,
         margin : 5,
-        borderColor: 'black',
-      },
-      main_container2: {
-        height: 160,
-        flexDirection: 'row',
-        borderWidth: 1,
-        margin : 5,
-        borderColor: 'black',
-        backgroundColor : '#A6F597'
+        borderColor: 'black'
       },
       image: {
         width: 100,
@@ -99,4 +92,4 @@ class CommandesItem extends React.Component {
       }
     })
 
-export default CommandesItem
+export default AdminItem

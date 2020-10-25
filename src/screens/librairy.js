@@ -23,7 +23,7 @@ UNSAFE_componentWillMount() {
   })
 }
 _displayDetailForBook = (id_book) => {
-  this.props.navigation.navigate('librairyRender', { id_book : id_book})
+  this.props.navigation.navigate('librairyRender', { id_book : id_book, id_commande : this.state.booksUser[0].id_Commande})
 }
     render() {
       if(this.state.booksUser.length == 0){

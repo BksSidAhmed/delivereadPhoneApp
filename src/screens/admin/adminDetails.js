@@ -1,22 +1,24 @@
 import React from 'react'
-import { StyleSheet, View, ActivityIndicator, ScrollView , Text , Image,Linking , Alert} from 'react-native'
-import { getCmdUserbooksIdCmd , postCmdIdLivreur, postCmdIdLivreurClient } from '../../api/index'
-import moment from 'moment'
+import { StyleSheet, View, Text , Image,Linking , Alert} from 'react-native'
+import { getCmdUserbooksIdCmd , postCmdIdAdmin } from '../../api/index'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux'
+import {Root,Popup} from 'popup-ui'
 
-class CommandeDetail extends React.Component {
+
+class AdminDetail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
      Data : ''
     }
+   //this.componentDidMount()
   }
 
 componentWillMount() {
   getCmdUserbooksIdCmd(this.props.route.params.id_Commande).then(data => {
-    console.log(data.book[0].etat)
+    console.log(data)
       this.setState({
         Data: data.book[0],
         isLoading: false
@@ -24,67 +26,69 @@ componentWillMount() {
     })
 }
 
-render() {
-  console.log(this.state.Data.etat)
+  render() {
+     console.log(this.state.Data.ReferenceBook)
      const tel =Number.parseInt('0'+this.state.Data.telephone);
+     console.log(this.state.Data.id_Commande)
+
      const twoOptionAlertHandler = () => {
-      Alert.alert('Warning','Voulez-vous prendre cette commande ?',
+      Alert.alert(
+        'Warning',
+        'Commande preparé',
         [
-          { text: 'oui', onPress: () => postCmdIdLivreur(this.props.idUser,this.state.Data.id_Commande).then(data => {}) },
-          {text: 'Non',onPress: () => console.log('No Pressed'),style: 'cancel'},
-        ],
-        { cancelable: false }
-      );
-    };
-    const twoOptionAlertHandlerRemis = () => {
-      Alert.alert('Warning','Commande livré ?',
-        [
-          { text: 'oui', onPress: () => postCmdIdLivreurClient(this.props.idUser,this.state.Data.id_Commande).then(data => {}) },
-          {text: 'Non',onPress: () => console.log('No Pressed'),style: 'cancel'},
+          { text: 'oui', onPress: () => postCmdIdAdmin(this.state.Data.id_Commande).then(data => {
+            console.log(data)
+        }) },
+          {
+            text: 'Non',
+            onPress: () => console.log('No Pressed'),
+            style: 'cancel',
+          },
         ],
         { cancelable: false }
       );
     };
 
     return (
+      <Root>
       <View style={styles.main_container}>
-        <View style={styles.divClient}>  
-          <Text style={styles.client}>Client: </Text>
-          <Text style={styles.nom}>{this.state.Data.nom} {this.state.Data.prenom}</Text>
-        </View>
-        <View style={styles.divTel}>
-          <View style={styles.divIcon}> 
+            <View><Text>{this.props.idUser} </Text></View>
+            <View style={styles.divClient}>  
+              <Text style={styles.client}>Client: </Text>
+              <Text style={styles.nom}>{this.state.Data.nom} {this.state.Data.prenom}</Text>
+            </View>
+            <View style={styles.divTel}>
+            <View style={styles.divIcon}> 
+              <FontAwesome5 
+               style = {styles.icon}
+                name="phone"
+                color ='green'
+                size={22}
+                onPress ={()=>{Linking.openURL('tel:0'+`${this.state.Data.telephone}` )}}
+                />
+                </View>
+            </View>
+            
+            <View style={styles.divCom}>
+            <View style={styles.divCmd}>
             <FontAwesome5 
-              style = {styles.icon}
-              name="phone"
-              color ='green'
-              size={22}
-              onPress ={()=>{Linking.openURL('tel:0'+`${this.state.Data.telephone}` )}}
+               style = {{margin : 10 }}
+                name="book-open"
+                color ='#F6416D'
+                size={22}
+                onPress ={()=>{Linking.openURL('tel:0'+`${this.state.Data.telephone}` )}}
+                />
+                <Text style={{ color : '#EC5423',textAlign : 'center' , flex: 1, fontSize :20}}> {this.state.Data.titre}</Text>
+                </View>
+                <View style={styles.divCmd}>
+             <Image
+              style={styles.image}
+              source={{uri: 'data:image/png;base64,' + this.state.Data.image}}
             />
-          </View>
-        </View>   
-        <View style={styles.divCom}>
-          <View style={styles.divCmd}>
-            <FontAwesome5 
-              style = {{margin : 10 }}
-              name="book-open"
-              color ='#F6416D'
-              size={22}
-              onPress ={()=>{Linking.openURL('tel:0'+`${this.state.Data.telephone}` )}}
-            />
-          <Text style={{ color : '#EC5423',textAlign : 'center' , flex: 1, fontSize :20}}> {this.state.Data.titre}</Text>
-        </View>
-        <View style={styles.divCmd}>
-          <Image
-            style={styles.image}
-            source={{uri: 'data:image/png;base64,' + this.state.Data.image}}
-          />
-          <View style={{flex:1 , alignSelf: 'center' }}> 
-            <Text style={styles.client}>Référence: </Text>
-            <Text style={{alignSelf : 'center', color : '#F7571B'}}> {this.state.Data.ReferenceBook}</Text>
-          </View>
-        </View>   
-      </View>
+            <View style={{flex:1 , alignSelf: 'center' }} ><Text style={styles.client}>Référence: </Text><Text style={{alignSelf : 'center', color : '#F7571B'}}> {this.state.Data.ReferenceBook}</Text></View>
+            </View>
+            
+            </View>
             
             <View style={styles.divCmd}>
             
@@ -97,23 +101,13 @@ render() {
                 />
                 <Text style={{flexWrap: 'wrap',fontSize: 16,textAlign : 'center'}}>{this.state.Data.adresse} </Text>
                 </View>
-                {
-                  this.state.Data.etat == "Commande en cours de Traitement" ? (
-                      <Button
-                        title="Prendre la commande"
-                        style={{alignSelf :'flex-end'}}
-                        onPress={twoOptionAlertHandler}
-                    /> 
-                  ) : (
-                    <Button
-                      title="Commande remis au Client"
-                      style={{alignSelf :'flex-end'}}
-                      onPress={twoOptionAlertHandlerRemis}
-                  /> 
-                  )
-                }
-   
+                <Button
+                    title="Commande Preparé"
+                    style={{alignSelf :'flex-end'}}
+                    onPress={twoOptionAlertHandler}
+            />    
       </View>
+      </Root>
     )
   }
 }
@@ -234,4 +228,4 @@ const mapStateToProps = (state) => {
        idUser: state.idUserReducer.idUser,
    }
 }
-export default connect(mapStateToProps) (CommandeDetail)
+export default connect(mapStateToProps) (AdminDetail)

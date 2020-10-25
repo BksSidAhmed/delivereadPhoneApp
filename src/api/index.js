@@ -18,7 +18,7 @@ export const getBooks = async () => {
 
 //Get all New Commande 
 export const getCommande = async () => {
-    const url = 'http://192.168.56.1:3000/api/commandes'
+    const url = 'http://192.168.1.38:3000/api/commandes'
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -30,6 +30,107 @@ export const getCommande = async () => {
         
         //console.log(await response.json())
         return await response.json()      
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+//Get all New Commande for admin 
+export const getCommandeAdmin = async () => {
+    const url = 'http://192.168.1.38:3000/api/commandeAdmin'
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        })
+        
+        //console.log(await response.json())
+        return await response.json()      
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+//je choisie cette commande puor le livreur
+export const postCmdIdLivreur = async (idLivreur, idcommande , valDataUser) => {
+    const url = 'http://192.168.1.38:3000/api/commandeOfLivreur/'+ idLivreur + '/' + idcommande
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body:JSON.stringify({
+                valDataUser
+            }),
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+//je choisie cette commande puor le livreur
+export const postCmdIdLivreurClient = async (idLivreur, idcommande , valDataUser) => {
+    const url = 'http://192.168.1.38:3000/api/commandeOfLivreurClient/'+ idLivreur + '/' + idcommande
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body:JSON.stringify({
+                valDataUser
+            }),
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+//je choisie cette commande puor le livreur
+export const postCmdIdAdmin = async (idcommande) => {
+    const url = 'http://192.168.1.38:3000/api/commandeOfAdmin/' + idcommande
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+
+    }catch(err){
+        return console.error(err);
+    }
+}
+
+//je choisie cette commande puor le livreur
+export const postCmdIdBookRendu = async (idcommande) => {
+    const url = 'http://192.168.1.38:3000/api/commandeOfBookRendu/' + idcommande
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+        })
+        const statusCode = response.status
+        return await Promise.all([statusCode,response.json()])
+
     }catch(err){
         return console.error(err);
     }
@@ -104,7 +205,7 @@ export const getCommandeIdUser = async (id) => {
 }
 //get user with idUser
 export const getUserByIdUser = async (id) => {
-    const url = 'http:/192.168.1.38:3000/api/user/' + id
+    const url = 'http://192.168.1.38:3000/api/user/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -121,7 +222,7 @@ export const getUserByIdUser = async (id) => {
 }
 // Get commande  user et books with idcommande
 export const getCmdUserbooksIdCmd = async (id) => {
-    const url = 'http://192.168.56.1:3000/api/cmdCliUser/' + id
+    const url = 'http://192.168.1.38:3000/api/cmdCliUser/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -138,7 +239,7 @@ export const getCmdUserbooksIdCmd = async (id) => {
 }
 // Post New data user
 export const postNewDataUser = async (textChamp , valDataUser ,id) => {
-    const url = 'http:/192.168.1.38:3000/api/user/' + textChamp + '/'+id
+    const url = 'http://192.168.1.38:3000/api/user/' + textChamp + '/'+id
     
     try {
         const response = await fetch(url, {

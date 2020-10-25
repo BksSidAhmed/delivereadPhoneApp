@@ -21,17 +21,14 @@ class Reservation extends React.Component {
             isLoading: true,
             isDateTimePickerVisible: false,
             dateTime : '',
-            adresse : '',
             textErro : "",
             isVisible: false,
             nbBook : null,
           } 
-          console.log(this.props.route.params.lat)
-        //   this.props.route.params.adress
-        //{this.props.idUser}
     }
 
     componentDidMount() {
+        console.log(this.state.adresse)
         getNbBookCommande(this.props.idUser).then(data => {
             this.setState({
                 nbBook: data.user[0].NbBookCommande,
@@ -43,14 +40,10 @@ class Reservation extends React.Component {
                 isLoading: false
             })
         })
-        this.setState({
-            adresse : this.props.route.params.adress
-        })
     } 
     _buttonCommande() {
         var timemoment = moment().format('YYYY-MM-DD hh:mm:ss')
         var time = moment(timemoment).add(2, 'h').format('YYYY-MM-DD hh:mm:ss');
-        console.log(this.state.nbBook)
         {
             this.state.nbBook >= 5 ? (
                 Popup.show({
@@ -62,7 +55,7 @@ class Reservation extends React.Component {
                     callback: () =>  this.props.navigation.navigate('books')
                 })
             ) : (
-                postCommandeBook(time, this.state.adresse , this.props.idUser, this.props.route.params.id_book).then(data => {
+                postCommandeBook(time, this.props.route.params.adress , this.props.idUser, this.props.route.params.id_book).then(data => {
                     if(data[0] == 400) {
                         this.setState({
                             textErro : data[1].msg
@@ -94,10 +87,8 @@ class Reservation extends React.Component {
                     }
                 })
             )
-
         }
     }
-
     synopsys(){
         return (
             this.setState({
@@ -105,7 +96,6 @@ class Reservation extends React.Component {
             })
         );
     }
-
     Overlay() {
         return (
             <Overlay isVisible={this.state.isVisible} 

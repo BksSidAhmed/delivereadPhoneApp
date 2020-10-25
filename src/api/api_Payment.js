@@ -1,6 +1,6 @@
 // Post payment methode
 export const postPaymentMethods = async (number, month, years, cvc) => {
-    const url = 'http://192.168.1.38:3000/payment/createPaymentMethods'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/payment/createPaymentMethods'
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -23,7 +23,7 @@ export const postPaymentMethods = async (number, month, years, cvc) => {
 
 // Post Customers
 export const postCustomers = async (name, email, paymentMethod) => {
-    const url = 'http://192.168.1.38:3000/payment/createCustomers'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/payment/createCustomers'
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -44,7 +44,7 @@ export const postCustomers = async (name, email, paymentMethod) => {
 }
 // Post Subscription
 export const postSubscription = async (customer, paymentMethod) => {
-    const url = 'http://192.168.1.38:3000/payment/doSubscription'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/payment/doSubscription'
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -65,7 +65,7 @@ export const postSubscription = async (customer, paymentMethod) => {
 
 // Get Subscription
 export const getSubscription = async (id) => {
-    const url = 'http://192.168.1.38:3000/payment/getSubscription/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/payment/getSubscription/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -81,7 +81,7 @@ export const getSubscription = async (id) => {
 }
 // Post Create Tokens
 export const postCreateTokens = async (number, month, years, cvc) => {
-    const url = 'http://192.168.1.38:3000/payment/createTokens'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/payment/createTokens'
     try {
         const response = await fetch(url, {
             method: 'POST',
