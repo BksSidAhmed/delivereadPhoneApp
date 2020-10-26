@@ -21,7 +21,8 @@ class LibrairyItem extends React.Component {
         }))
       }    
       UNSAFE_componentWillMount() {
-        getCommandeIdUser(this.props.book.ReferenceBook).then(data => {
+        getCommandeIdUser(this.props.book.ReferenceBook, this.props.idUser).then(data => {
+          console.log(data)
           this.setState({
             CommandeUser: data.commande[0].etat,
           })
@@ -29,7 +30,7 @@ class LibrairyItem extends React.Component {
       }
       componentDidMount() {
           this.myInterval = setInterval(() => {
-            getCommandeIdUser(this.props.book.ReferenceBook).then(data => {
+            getCommandeIdUser(this.props.book.ReferenceBook, this.props.idUser).then(data => {
               this.setState({
                 CommandeUser: data.commande[0].etat,
               })
@@ -54,13 +55,13 @@ class LibrairyItem extends React.Component {
                   this.state.CommandeUser == "Commande remis au livreur" ? (
                   <Progress.Bar progress={0.70} width={350} height={10}/>
                   ):(
-                    this.state.CommandeUser == "Phase de lecture" ? (
+                    this.state.CommandeUser == "phase de retour" ? (
                       <View >
                          <Progress.Bar style = {{marginBottom : 5}} progress={1} width={350} height={10} color="green"/>
                           
                           <Button
                             onPress={() => displayDetailForBook(book.id_book)}
-                            title="Rendre le Livre"
+                            title="Voir les relais"
                             type="solid"
                           />
                       </View>
@@ -190,7 +191,8 @@ const mapStateToProps = (state) => {
 // Redux Store --> Component
 return {
     token: state.tokenReducer.token,
-    books1 : state.booksReducer.books1
+    books1 : state.booksReducer.books1,
+    idUser: state.idUserReducer.idUser,
 }
 }
 

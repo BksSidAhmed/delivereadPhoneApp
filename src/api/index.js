@@ -1,6 +1,6 @@
 // Get all Books
 export const getBooks = async () => {
-    const url = 'http://192.168.1.38:3000/api/books'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/books'
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -17,8 +17,8 @@ export const getBooks = async () => {
 }
 
 //Get all New Commande 
-export const getCommande = async () => {
-    const url = 'http://192.168.1.38:3000/api/commandes'
+export const getCommande = async (id) => {
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commandes/'+id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -37,7 +37,7 @@ export const getCommande = async () => {
 
 //Get all New Commande for admin 
 export const getCommandeAdmin = async () => {
-    const url = 'http://192.168.1.38:3000/api/commandeAdmin'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commandeAdmin'
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -56,7 +56,7 @@ export const getCommandeAdmin = async () => {
 
 //je choisie cette commande puor le livreur
 export const postCmdIdLivreur = async (idLivreur, idcommande , valDataUser) => {
-    const url = 'http://192.168.1.38:3000/api/commandeOfLivreur/'+ idLivreur + '/' + idcommande
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commandeOfLivreur/'+ idLivreur + '/' + idcommande
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -78,7 +78,7 @@ export const postCmdIdLivreur = async (idLivreur, idcommande , valDataUser) => {
 
 //je choisie cette commande puor le livreur
 export const postCmdIdLivreurClient = async (idLivreur, idcommande , valDataUser) => {
-    const url = 'http://192.168.1.38:3000/api/commandeOfLivreurClient/'+ idLivreur + '/' + idcommande
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commandeOfLivreurClient/'+ idLivreur + '/' + idcommande
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -100,7 +100,7 @@ export const postCmdIdLivreurClient = async (idLivreur, idcommande , valDataUser
 
 //je choisie cette commande puor le livreur
 export const postCmdIdAdmin = async (idcommande) => {
-    const url = 'http://192.168.1.38:3000/api/commandeOfAdmin/' + idcommande
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commandeOfAdmin/' + idcommande
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -119,7 +119,7 @@ export const postCmdIdAdmin = async (idcommande) => {
 
 //je choisie cette commande puor le livreur
 export const postCmdIdBookRendu = async (idcommande) => {
-    const url = 'http://192.168.1.38:3000/api/commandeOfBookRendu/' + idcommande
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commandeOfBookRendu/' + idcommande
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -138,7 +138,7 @@ export const postCmdIdBookRendu = async (idcommande) => {
 
 // Get all BooksSearch
 export const getBookSearch = async (text) => {
-    const url = 'http://192.168.1.38:3000/api/bookSearch/' + text
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/bookSearch/' + text
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -154,7 +154,7 @@ export const getBookSearch = async (text) => {
 }
 // Get Books with id
 export const getBooksid = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/books/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/books/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -171,7 +171,7 @@ export const getBooksid = async (id) => {
 }
 // Get Books with idUser
 export const getBooksIdUser = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/booksUser/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/booksUser/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -187,8 +187,8 @@ export const getBooksIdUser = async (id) => {
     }
 }
 // Get commande with idUser
-export const getCommandeIdUser = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/commande/' + id
+export const getCommandeIdUser = async (reference, id) => {
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commande/' + reference+'/' +id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -205,7 +205,7 @@ export const getCommandeIdUser = async (id) => {
 }
 //get user with idUser
 export const getUserByIdUser = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/user/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/user/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -222,7 +222,7 @@ export const getUserByIdUser = async (id) => {
 }
 // Get commande  user et books with idcommande
 export const getCmdUserbooksIdCmd = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/cmdCliUser/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/cmdCliUser/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -239,7 +239,7 @@ export const getCmdUserbooksIdCmd = async (id) => {
 }
 // Post New data user
 export const postNewDataUser = async (textChamp , valDataUser ,id) => {
-    const url = 'http://192.168.1.38:3000/api/user/' + textChamp + '/'+id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/user/' + textChamp + '/'+id
     
     try {
         const response = await fetch(url, {
@@ -262,7 +262,7 @@ export const postNewDataUser = async (textChamp , valDataUser ,id) => {
 
 // Post User Login
 export const postUser = async (login , mdp) => {
-    const url = 'http://192.168.1.38:3000/api/login/'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/login/'
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -285,7 +285,7 @@ export const postUser = async (login , mdp) => {
 
 // Post User Register
 export const postUserRegister = async (prenom,nom,login,mdp,telephone,email) => {
-    const url = 'http://192.168.1.38:3000/api/sign-up/'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/sign-up/'
     
     try {
         const response = await fetch(url, {
@@ -312,7 +312,7 @@ export const postUserRegister = async (prenom,nom,login,mdp,telephone,email) => 
 }
 // Post User commande
 export const postCommandeBook = async (datelivraison , adresselivraison, id_user, id) => {
-    const url = 'http://192.168.1.38:3000/api/commandeBooks/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commandeBooks/' + id
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -334,7 +334,7 @@ export const postCommandeBook = async (datelivraison , adresselivraison, id_user
     }
 }
 export const postCommandeBookid = async (idcommandeBooks, id) => {
-    const url = 'http://192.168.1.38:3000/api/commandeBooksid/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commandeBooksid/' + id
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -355,7 +355,7 @@ export const postCommandeBookid = async (idcommandeBooks, id) => {
 }
 // Get token
 export const getToken = async (token) => {
-    const url = 'http://192.168.1.38:3000/api/secret-route/'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/secret-route/'
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -374,7 +374,7 @@ export const getToken = async (token) => {
 }
 // Send star note
 export const postStar = async (commentaire, note , id_user ,id_book) => {
-    const url = 'http://192.168.1.38:3000/api/starUser'
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/starUser'
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -399,7 +399,7 @@ export const postStar = async (commentaire, note , id_user ,id_book) => {
 
 // Get all commentaire value
 export const getStar = async (id_user,id_book) => {
-    const url = 'http://192.168.1.38:3000/api/commentaire/' + id_user + '/' + id_book
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commentaire/' + id_user + '/' + id_book
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -416,7 +416,7 @@ export const getStar = async (id_user,id_book) => {
     }
 }
 export const getStatStar = async (id_book) => {
-    const url = 'http://192.168.1.38:3000/api/statStar/' + id_book
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/statStar/' + id_book
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -433,7 +433,7 @@ export const getStatStar = async (id_book) => {
     }
 }
 export const getStatStarUser = async (id_book) => {
-    const url = 'http://192.168.1.38:3000/api/statStarUser/' + id_book
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/statStarUser/' + id_book
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -450,7 +450,7 @@ export const getStatStarUser = async (id_book) => {
     }
 }
 export const getCommentaireAll = async (id_book) => {
-    const url = 'http://192.168.1.38:3000/api/commentaireAll/' + id_book
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/commentaireAll/' + id_book
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -470,7 +470,7 @@ export const getCommentaireAll = async (id_book) => {
 //POST 
 // Post NbBookCommandepostplus
 export const postNbBookCommandePlus = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/nbBookCommandepostplus/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/nbBookCommandepostplus/' + id
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -488,7 +488,7 @@ export const postNbBookCommandePlus = async (id) => {
 }
 // Post NbBookCommandepostmoins
 export const postNbBookCommandeMoins = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/nbBookCommandepostmoins/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/nbBookCommandepostmoins/' + id
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -508,7 +508,7 @@ export const postNbBookCommandeMoins = async (id) => {
 //GET
 //get NbBookCommandeget
 export const getNbBookCommande = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/nbBookCommandeget/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/nbBookCommandeget/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -527,7 +527,7 @@ export const getNbBookCommande = async (id) => {
 //POST
 // Post id Abonnement
 export const postIdAbonnement = async (id, idAbonnement) => {
-    const url = 'http://192.168.1.38:3000/api/userAbonnementpost/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/userAbonnementpost/' + id
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -549,7 +549,7 @@ export const postIdAbonnement = async (id, idAbonnement) => {
 
 // Post Token
 export const postTokenAB = async (id, tokenAbonnement) => {
-    const url = 'http://192.168.1.38:3000/api/userTokenABPost/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/userTokenABPost/' + id
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -572,7 +572,7 @@ export const postTokenAB = async (id, tokenAbonnement) => {
 
 //get id Abonnement
 export const getIdAbonnement = async (id) => {
-    const url = 'http://192.168.1.38:3000/api/userAbonnementget/' + id
+    const url = 'https://jonathanjouffroy.alwaysdata.net/api/userAbonnementget/' + id
     try {
         const response = await fetch(url, {
             method: 'GET',

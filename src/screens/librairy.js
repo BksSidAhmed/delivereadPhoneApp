@@ -13,6 +13,7 @@ class Librairy extends React.Component {
     this.state = {
         booksUser: [],
     }
+    console.log(this.props.idUser)
 }
 
 UNSAFE_componentWillMount() {

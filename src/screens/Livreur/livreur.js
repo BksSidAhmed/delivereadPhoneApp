@@ -2,17 +2,15 @@ import React from 'react';
 import { FlatList, ActivityIndicator, View} from 'react-native'
 import { getCommande } from '../../api/index'
 import CommandesItem from './commandesItem'
-
+import { connect } from 'react-redux'
 
 class Livreur extends React.Component {
-
     constructor(props) {
         super(props)
         this.state = {
             Commandes: [],
             loading : false
         }
-        
         this._setData()
     }
         _setData = async () => {            
@@ -20,7 +18,8 @@ class Livreur extends React.Component {
             loading : true
         })
           try {
-            getCommande().then(data => {
+            getCommande(this.props.idUser).then(data => {
+                console.log(data)
                 this.setState({ 
                     loading : false,
                     Commandes: data.book,
@@ -58,5 +57,11 @@ class Livreur extends React.Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    // Redux Store --> Component
+   return {
+       idUser : state.idUserReducer.idUser
+   }
+}
 
-export default Livreur
+export default connect(mapStateToProps) (Livreur)

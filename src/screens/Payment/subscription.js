@@ -1,7 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet, ScrollView, Button, TouchableOpacity,ActivityIndicator
-
-} from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Button,ActivityIndicator} from 'react-native';
 import { postPaymentMethods, postCustomers, postSubscription, postCreateTokens} from '../../api/api_Payment'
 import { postIdAbonnement, getUserByIdUser, postTokenAB} from '../../api/index'
 import { CreditCardInput} from "react-native-credit-card-input";
