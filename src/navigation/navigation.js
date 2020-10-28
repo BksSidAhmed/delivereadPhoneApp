@@ -14,6 +14,8 @@ import Books from '../screens/Home/books';
 import BooksDetail from '../screens/Home/booksDetail';
 import Login from '../screens/Auth/login';
 import Register from '../screens/Auth/register';
+import RegisterLogin from '../screens/Auth/registerLogin';
+
 import Reservation from '../screens/reservation';
 import Adresse from '../screens/adresse';
 import DrawerContent from '../components/drawerContent'
@@ -273,6 +275,18 @@ function AuthStackScreen() {
                     headerTintColor: '#fff',
                   }}
               />
+              <AuthStack.Screen 
+                  name="RegisterLogin" 
+                  component={RegisterLogin}
+                  options =  {{
+                    title: 'Creation de Compte Login',
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                      backgroundColor: '#EF800B',
+                    },
+                    headerTintColor: '#fff',
+                  }}
+              />
         </AuthStack.Navigator> 
     )
 }
@@ -412,7 +426,6 @@ class Navigation extends React.Component {
   }
 
   render() {
-    // console.log(this.props.RESET_ACTION())
     if(this.state.loading) {
       return (
         <View>

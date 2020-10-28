@@ -27,8 +27,6 @@ export const getCommande = async (id) => {
                 'Content-Type' : 'application/json'
             }
         })
-        
-        //console.log(await response.json())
         return await response.json()      
     }catch(err){
         return console.error(err);
@@ -46,8 +44,6 @@ export const getCommandeAdmin = async () => {
                 'Content-Type' : 'application/json'
             }
         })
-        
-        //console.log(await response.json())
         return await response.json()      
     }catch(err){
         return console.error(err);

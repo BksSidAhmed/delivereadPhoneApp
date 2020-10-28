@@ -22,7 +22,6 @@ class LibrairyItem extends React.Component {
       }    
       UNSAFE_componentWillMount() {
         getCommandeIdUser(this.props.book.ReferenceBook, this.props.idUser).then(data => {
-          console.log(data)
           this.setState({
             CommandeUser: data.commande[0].etat,
           })

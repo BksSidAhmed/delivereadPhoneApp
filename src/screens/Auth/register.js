@@ -1,23 +1,19 @@
 import React from 'react'
-import { View , StyleSheet, Text, Linking } from 'react-native'
+import { View , StyleSheet, ScrollView, Text, TouchableOpacity} from 'react-native'
 import { Input, Button} from 'react-native-elements'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { postUserRegister } from '../../api/index'
-import { Root, Popup, Toast } from 'popup-ui';
+import { Root, Popup } from 'popup-ui';
 
 class Register extends React.Component {
     constructor(props) {
         super(props)
         this.prenom = ""
         this.nom = ""
-        this.username = ""
-        this.password = ""
         this.telephone = ""
         this.email = ""
-        this.state = {
-            textErro : ""
-        }  
+
     }
     
     authInputPrenom(text) {
@@ -26,143 +22,104 @@ class Register extends React.Component {
     authInputNom(text) {
         this.nom = text
     }
-    authInputLogin(text) {
-        this.username = text
-    }
-    authInputPassword(text) {
-        this.password = text
-    }
     authInputTelephone(text) {
         this.telephone = text
     }
     authInputEmail(text) {
         this.email = text
     }
-    
-    register(){
-        postUserRegister(this.prenom,this.nom,this.username,this.password,this.telephone,this.email).then(data => {
-            console.log(this.props)
-            if(data[0] == '201') {
-                Popup.show({
-                    type: 'Success',
-                    title: 'Insciption',
-                    textBody: 'Compte créé avec succès',
-                    button: true,
-                    buttonText: 'Ok',
-                    callback: () => this.props.navigation.navigate('Login')
-                })
-            }
-            else {
-                this.setState({
-                    textErro : data[1].msg
-                })
-                Popup.show({
-                    type: 'Danger',
-                    title: 'Insciption',
-                    textBody: this.state.textErro,
-                    button: true,
-                    buttonText: 'Ok',
-                    callback: () => Popup.hide()
-                })
-            }
-        })
+    GoRegisterLogin(){
+        if(this.email == "" || this.nom == "" || this.telephone == "" || this.prenom == "") {
+            Popup.show({
+                type: 'Danger',
+                title: 'Insciption',
+                textBody: 'Veuillez remplir tout les champs',
+                button: true,
+                buttonText: 'Ok',
+                callback: () => Popup.hide()
+            })
+        }
+        else{
+            this.props.navigation.navigate('RegisterLogin', { prenom : this.prenom, nom : this.nom, telephone : this.telephone, email : this.email})
+        }
     }
     render() {
         return (
             <Root>
                 <View style = {styles.main_containers}>
-                <Input 
-                        placeholder = 'Prenom'
-                        onChangeText = {(text) => this.authInputPrenom(text)}
-                        leftIcon = {
-                            <MaterialIcons
-                                style = {styles.icon}
-                                name = 'person'
-                                size = {20}
-                                color = 'white'
-                            />
-                        }
-                        inputStyle={{marginBottom:10, color : '#FF9800'}}
-                        placeholderTextColor='white'
-                    />
-                    <Input 
-                        placeholder = 'Nom'
-                        onChangeText = {(text) => this.authInputNom(text)}
-                        leftIcon = {
-                            <MaterialIcons
-                                style = {styles.icon}
-                                name = 'person'
-                                size = {20}
-                                color = 'white'
-                            />
-                        }
-                        inputStyle={{marginBottom:10, color : '#FF9800'}}
-                        placeholderTextColor='white'
-                    />
-                    <Input 
-                        placeholder = 'Login'
-                        onChangeText = {(text) => this.authInputLogin(text)}
-                        leftIcon = {
-                            <MaterialIcons
-                                style = {styles.icon}
-                                name = 'person'
-                                size = {20}
-                                color = 'white'
-                            />
-                        }
-                        inputStyle={{marginBottom:10, color : '#FF9800'}}
-                        placeholderTextColor='white'
-                    />
-                    <Input
-                        placeholder = 'Mot de passe'
-                        onChangeText = {(text) => this.authInputPassword(text)}
-                        leftIcon = {
-                            <MaterialIcons
-                                style = {styles.icon}
-                                name = 'vpn-key'
-                                size = {20}
-                                color = 'white'
-                            />
-                        }
-                        inputStyle={{marginBottom:10, color : '#FF9800'}}
-                        placeholderTextColor='white'   
-                    />
-                    <Input 
-                        placeholder = 'Telephone'
-                        onChangeText = {(text) => this.authInputTelephone(text)}
-                        leftIcon = {
+                    <View style={styles.header}>
+                        <Text animation = "fadeInLeftBig" style={styles.text_header}>Sign UP : Information Personnelle</Text>
+                    </View>
+                    <ScrollView style={styles.footer}>
+                        <Input 
+                            placeholder = 'Prenom'
+                            onChangeText = {(text) => this.authInputPrenom(text)}
+                            leftIcon = {
+                                <MaterialIcons
+                                    style = {styles.icon}
+                                    name = 'person'
+                                    size = {20}
+                                    color = 'black'
+                                />
+                            }
+                            inputStyle={{marginBottom:10, color : '#FF9800'}}
+                            placeholderTextColor='black'
+                        />
+                        <Input 
+                            placeholder = 'Nom'
+                            onChangeText = {(text) => this.authInputNom(text)}
+                            leftIcon = {
+                                <MaterialIcons
+                                    style = {styles.icon}
+                                    name = 'person'
+                                    size = {20}
+                                    color = 'black'
+                                />
+                            }
+                            inputStyle={{marginBottom:10, color : '#FF9800'}}
+                            placeholderTextColor='black'
+                        />
+                        <Input 
+                            placeholder = 'Telephone'
+                            onChangeText = {(text) => this.authInputTelephone(text)}
+                            leftIcon = {
+                                <FontAwesome5
+                                    style = {styles.icon}
+                                    name = 'mobile-alt'
+                                    size = {20}
+                                    color = 'black'
+                                />
+                            }
+                            inputStyle={{marginBottom:10, color : '#FF9800'}}
+                            placeholderTextColor='black'
+                        />
+                        <Input 
+                            placeholder = 'Email'
+                            onChangeText = {(text) => this.authInputEmail(text)}
+                            leftIcon = {
+                                <FontAwesome5
+                                    style = {styles.icon}
+                                    name = 'envelope'
+                                    size = {20}
+                                    color = 'black'
+                                />
+                            }
+                            inputStyle={{marginBottom:10, color : '#FF9800'}}
+                            placeholderTextColor='black'
+                        />
+                        <TouchableOpacity 
+                        style = {{flex : 1, alignItems : 'flex-end', margin : 10}}
+                        onPress={() => this.GoRegisterLogin()} >
                             <FontAwesome5
                                 style = {styles.icon}
-                                name = 'mobile-alt'
-                                size = {20}
-                                color = 'white'
+                                name = 'arrow-circle-right'
+                                size = {50}
+                                color = 'black'
                             />
-                        }
-                        inputStyle={{marginBottom:10, color : '#FF9800'}}
-                        placeholderTextColor='white'
-                    />
-                    <Input 
-                        placeholder = 'Email'
-                        onChangeText = {(text) => this.authInputEmail(text)}
-                        leftIcon = {
-                            <FontAwesome5
-                                style = {styles.icon}
-                                name = 'envelope'
-                                size = {20}
-                                color = 'white'
-                            />
-                        }
-                        inputStyle={{marginBottom:10, color : '#FF9800'}}
-                        placeholderTextColor='white'
-                    />
-                    <Button style={styles.style_button}
-                            onPress={() => this.register()} 
-                            type="clear"
-                            title="S'enregistrer"
-                            titleStyle={{color:'white', margin:10}}
-                    /> 
+                        </TouchableOpacity>
+                    </ScrollView>
             </View>
-        </Root>
+            </Root>
         )
     }
 }
@@ -170,11 +127,29 @@ const styles = StyleSheet.create({
 
     main_containers: {
         flex : 1,
-        backgroundColor: '#183B5A',
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: '#EF800B',
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
-    
+    text_header: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 30
+    },
+    header: {
+        flex: 0.5,
+        justifyContent: 'flex-end',
+        paddingHorizontal: 20,
+        paddingBottom: 50
+    },
+    footer: {
+        flex: 1,
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingHorizontal: 20,
+        paddingVertical: 30,
+    },
     containers_button : {
         marginTop : 10,
     },

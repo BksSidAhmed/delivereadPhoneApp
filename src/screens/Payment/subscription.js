@@ -38,7 +38,6 @@ class Subscription extends React.Component {
         })
         postCreateTokens(number,month,years,cvc).then(data => {
             postTokenAB(this.props.idUser,data.id).then(data => {
-                console.log(data)
             })
         })
         postPaymentMethods(number,month,years,cvc).then(data => {

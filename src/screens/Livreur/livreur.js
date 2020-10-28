@@ -19,7 +19,6 @@ class Livreur extends React.Component {
         })
           try {
             getCommande(this.props.idUser).then(data => {
-                console.log(data)
                 this.setState({ 
                     loading : false,
                     Commandes: data.book,

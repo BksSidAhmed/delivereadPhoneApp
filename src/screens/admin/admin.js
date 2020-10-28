@@ -37,7 +37,6 @@ class Admin extends React.Component {
     }
 
     render() {
-        // console.log(this.state.Commandes)
         if(this.state.loading) {
             return(
                 <View style={{flex: 1,justifyContent: "center"}}>

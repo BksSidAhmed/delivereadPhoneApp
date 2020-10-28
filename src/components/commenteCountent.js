@@ -22,7 +22,6 @@ class CommenteCountent extends React.Component {
     }
     render() {
         const commentes = this.props.commentes
-        console.log(commentes)
         return (
                 <Card style={styles.main_container}>
                     <View style = {{alignItems:'flex-end', flexDirection : 'row'}}> 

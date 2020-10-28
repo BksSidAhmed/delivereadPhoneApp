@@ -28,7 +28,6 @@ class Reservation extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state.adresse)
         getNbBookCommande(this.props.idUser).then(data => {
             this.setState({
                 nbBook: data.user[0].NbBookCommande,
@@ -82,7 +81,6 @@ class Reservation extends React.Component {
                         })
                         // this.props.IncrementBooks()
                         postNbBookCommandePlus(this.props.idUser).then(data => {
-                            console.log(data)
                         })
                     }
                 })

@@ -12,7 +12,6 @@ class AdminItem extends React.Component {
     render() {
         const commande = this.props.commande
         const { displayDetailForFilm } = this.props
-        console.log(commande)
         return (
           <TouchableOpacity 
               style={styles.main_container}  

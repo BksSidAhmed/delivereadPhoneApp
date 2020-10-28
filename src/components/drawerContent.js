@@ -33,11 +33,11 @@ class DrawerContent extends React.Component {
                                 onPress={() => {this.props.navigation.navigate('Home')}}
                             />
                         </Drawer.Section>
-                        <View style = {{flexDirection : 'row', flex : 1}}>
+                        {/* <View style = {{flexDirection : 'row', flex : 1}}>
                             <Text style = {{fontSize : 15, top: 7, marginLeft: 5}}>Categorie</Text>
                             <View style = {{borderBottomWidth: 1, borderBottomColor : 'grey' , flex : 1, marginLeft: 8}}></View>
-                        </View>
-                        <Drawer.Section style={styles.drawerSection}>
+                        </View> */}
+                        {/* <Drawer.Section style={styles.drawerSection}>
                             <DrawerItem 
                                 icon={({color, size}) => (
                                     <FontAwesome5 
@@ -60,7 +60,7 @@ class DrawerContent extends React.Component {
                                 label="Manga"
                                 onPress={() => {this.props.navigation.navigate('Manga')}}
                             />
-                        </Drawer.Section>
+                        </Drawer.Section> */}
                     </View>
                 </DrawerContentScrollView>
                 <Drawer.Section style={styles.bottomDrawerSection}>

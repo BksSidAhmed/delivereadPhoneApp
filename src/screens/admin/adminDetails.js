@@ -18,7 +18,6 @@ class AdminDetail extends React.Component {
 
 componentWillMount() {
   getCmdUserbooksIdCmd(this.props.route.params.id_Commande).then(data => {
-    console.log(data)
       this.setState({
         Data: data.book[0],
         isLoading: false
@@ -27,17 +26,13 @@ componentWillMount() {
 }
 
   render() {
-     console.log(this.state.Data.ReferenceBook)
      const tel =Number.parseInt('0'+this.state.Data.telephone);
-     console.log(this.state.Data.id_Commande)
-
      const twoOptionAlertHandler = () => {
       Alert.alert(
         'Warning',
         'Commande preparé',
         [
           { text: 'oui', onPress: () => postCmdIdAdmin(this.state.Data.id_Commande).then(data => {
-            console.log(data)
         }) },
           {
             text: 'Non',

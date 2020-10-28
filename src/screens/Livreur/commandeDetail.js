@@ -16,7 +16,6 @@ class CommandeDetail extends React.Component {
 
 componentWillMount() {
   getCmdUserbooksIdCmd(this.props.route.params.id_Commande).then(data => {
-    console.log(data.book[0].etat)
       this.setState({
         Data: data.book[0],
         isLoading: false
@@ -25,7 +24,6 @@ componentWillMount() {
 }
 
 render() {
-  console.log(this.state.Data.etat)
      const tel =Number.parseInt('0'+this.state.Data.telephone);
      const twoOptionAlertHandler = () => {
       Alert.alert('Warning','Voulez-vous prendre cette commande ?',
