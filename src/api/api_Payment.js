@@ -63,6 +63,23 @@ export const postSubscription = async (customer, paymentMethod) => {
     }
 }
 
+// Delete Subscription
+export const delSubscription = async (id) => {
+    const url = 'https://jonathanjouffroy.alwaysdata.net/payment/delSubscription/' + id
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+        })
+        return await response.json()      
+    }catch(err){
+        return console.error(err);
+    }
+}
+
 // Get Subscription
 export const getSubscription = async (id) => {
     const url = 'https://jonathanjouffroy.alwaysdata.net/payment/getSubscription/' + id

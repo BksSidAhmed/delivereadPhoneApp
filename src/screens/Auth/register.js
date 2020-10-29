@@ -38,9 +38,23 @@ class Register extends React.Component {
                 buttonText: 'Ok',
                 callback: () => Popup.hide()
             })
+           
         }
         else{
-            this.props.navigation.navigate('RegisterLogin', { prenom : this.prenom, nom : this.nom, telephone : this.telephone, email : this.email})
+            const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (reg.test(this.email) === true){
+                this.props.navigation.navigate('RegisterLogin', { prenom : this.prenom, nom : this.nom, telephone : this.telephone, email : this.email})
+            }
+            else{
+                Popup.show({
+                    type: 'Danger',
+                    title: 'Email',
+                    textBody: 'Veuillez entrer un mail valid',
+                    button: true,
+                    buttonText: 'Ok',
+                    callback: () => Popup.hide()
+                })
+            }
         }
     }
     render() {
@@ -96,6 +110,8 @@ class Register extends React.Component {
                         <Input 
                             placeholder = 'Email'
                             onChangeText = {(text) => this.authInputEmail(text)}
+                            keyboardType = "email-address"
+                            autoCapitalize="none"
                             leftIcon = {
                                 <FontAwesome5
                                     style = {styles.icon}

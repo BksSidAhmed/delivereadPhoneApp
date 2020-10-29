@@ -1,10 +1,12 @@
 import React  from 'react'
-import { StyleSheet,View , Text, TextInput, ScrollView } from 'react-native'
+import { StyleSheet,View , Text, TextInput, ScrollView, TouchableOpacity } from 'react-native'
 //redux
 import { connect } from 'react-redux'
-import { getUserByIdUser , postNewDataUser} from '../api/index'
+import { getUserByIdUser , postNewDataUser, getIdAbonnement} from '../api/index'
 import PhoneInput from 'react-native-phone-input'
 import { IconButton , Avatar } from 'react-native-paper';
+import { delSubscription, getSubscription } from '../api/api_Payment'
+import { Root, Popup } from 'popup-ui';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -17,11 +19,33 @@ class Profile extends React.Component {
         this.login ='',
         this.telephone = ''
         this.state = {
-            dataUser : ''
+            dataUser : '',
+            idAbonnement : '', 
+            activeAbonnement : '', 
+            cancel_at : ''
         }
     }
     UNSAFE_componentWillMount(){
-      
+        getIdAbonnement(this.props.idUser).then(data => {
+            this.setState({
+              idAbonnement : data.user[0].id_abonnement
+            }, () => {
+                getSubscription(this.state.idAbonnement).then(data => {
+                    if(data.status == 'active') {
+                        this.setState({
+                            activeAbonnement : 'active',
+                            cancel_at : data.cancel_at_period_end
+                        })
+                    }
+                    else {
+                        this.setState({
+                            activeAbonnement : 'inactive',
+                            cancel_at : data.cancel_at_period_end
+                        })
+                    }
+                })
+            })
+        })
        getUserByIdUser(this.props.idUser).then(data => {
             console.log(data.user[0])
            this.setState({
@@ -68,9 +92,6 @@ class Profile extends React.Component {
         else{
             console.log('Mauvais numéro !');
         }
-	
-    // On renvoie match
-    console.log(valide)
     }
     sendNewData = (param, paramValeur) => {
         
@@ -79,12 +100,22 @@ class Profile extends React.Component {
            
         })
     }
+    resiliation = () => {
+        delSubscription(this.state.idAbonnement).then(data => {
+            Popup.show({
+                type: 'Success',
+                title: "Resiliation",
+                textBody: "Votre abonnement prendra fin à la fin de votre periode",
+                button: true,
+                buttonText: 'Ok',
+                callback: () =>  Popup.hide()
+            }) 
+        })
+    }
     render() {
-        
-        //console.log('render')
-        //console.log(this.state.dataUser[0])
-       
+        console.log(this.state.cancel_at)
         return (
+            <Root>
             <View style={styles.mainContent}>
               <View style={styles.headerContent}>
                 <Avatar.Icon 
@@ -192,8 +223,24 @@ class Profile extends React.Component {
                   style={{alignItems : 'flex-end',flex:1}}
                 /> 
                  </View>
+                 {
+                     this.state.activeAbonnement == 'active' && this.state.cancel_at == false ? (
+                        <View style = {{flex : 1, alignItems : 'center'}}>
+                            <TouchableOpacity 
+                                style = {{width : 300, height : 40, backgroundColor : '#E56767', margin : 10, marginTop : 20, alignItems : 'center', justifyContent :'center', borderRadius : 10, alignContent : 'center'}}
+                                onPress={() => this.resiliation()}> 
+                                <Text style = {{ fontSize : 20, color : 'white'}}>
+                                    Resilier son abonnement 
+                                </Text> 
+                            </TouchableOpacity>
+                        </View>
+                     ) : (
+                          null
+                     )
+                 }  
               </ScrollView>    
             </View>
+            </Root>
         )
     }
 }
@@ -219,7 +266,6 @@ const styles = StyleSheet.create({
           borderBottomWidth: 1,
           borderBottomColor: '#f2f2f2',
     }
-    
   });
  
   const mapStateToProps = (state) => {

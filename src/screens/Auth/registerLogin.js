@@ -81,6 +81,7 @@ class RegisterLogin extends React.Component {
                                 color = 'black'
                             />
                         }
+                        autoCapitalize="none"
                         inputStyle={{marginBottom:10, color : '#FF9800'}}
                         placeholderTextColor='black'
                     />
@@ -95,6 +96,7 @@ class RegisterLogin extends React.Component {
                                 color = 'black'
                             />
                         }
+                        autoCapitalize="none"
                         inputStyle={{marginBottom:10, color : '#FF9800'}}
                         placeholderTextColor='black'   
                     />

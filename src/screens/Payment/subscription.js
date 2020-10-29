@@ -64,8 +64,8 @@ class Subscription extends React.Component {
     payement(){
         Popup.show({
             type: 'Success',
-            title: "Souhaitez vous souscrire à cette abonnement ? ",
-            textBody: this.state.textErro,
+            title: "Abonnement",
+            textBody: "Souhaitez vous souscrire à cette abonnement ? ",
             button: true,
             buttonText: 'Ok',
             callback: () =>  this._subscribe()
